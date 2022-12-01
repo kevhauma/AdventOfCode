@@ -1,32 +1,40 @@
+const fs = require("fs");
+
+const prepareData = () => {
+  const input = fs.readFileSync("./day1/input.txt", { encoding: "utf8" });
+  const calorieItems = input.split(/\r?\n/g);
+
+  const calorieTotals = [];
+  let tempCalCount = 0;
+  calorieItems.forEach((cal) => {
+    //if empty line, count up gathered calories and push em in the other array
+    //clear out gathered calories while we're here
+    if (!cal) {
+      calorieTotals.push(tempCalCount);
+      tempCalCount = 0;
+    } else tempCalCount += parseInt(cal);
+  });
+  return calorieTotals;
+};
+
 /*
 Part one
 */
 
-const fs = require('fs')
-
-const input = fs.readFileSync('./day1/input.txt',  {encoding:'utf8'})
-const calorieItems = input.split(/\r?\n/g)
-
-const calorieTotals = []
-let tempCalGroup = []
-calorieItems.forEach(cal=>{
-    //if empty line, count up gathered calories and push em in the other array
-    //clear out gathered calories while we're here
-if(!cal){
-    const totalCalorieCount = tempCalGroup.reduce((total,current)=>total+current)
-    calorieTotals.push(totalCalorieCount)    
-    tempCalGroup = []
-}
-else
-    tempCalGroup.push(parseInt(cal))
-})
-
-const maxCalorieCount = Math.max(...calorieTotals)
-console.log(maxCalorieCount)
+const p1 = () => {
+  const calorieTotals = prepareData();
+  return Math.max(...calorieTotals);
+};
 
 /*
 Part two
 */
+const p2 = () => {
+  const calorieTotals = prepareData();
+  return calorieTotals
+    .sort((a, b) => b - a)
+    .slice(0, 3)
+    .reduce((total, current) => total + current);
+};
 
-const top3 = calorieTotals.sort((a,b)=>b-a).slice(0,3).reduce((total,current)=>total+current)
-console.log(top3)
+module.exports = { p1, p2 };
