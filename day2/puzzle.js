@@ -1,72 +1,30 @@
 const fs = require("fs");
 
-const YOU = {
-  ROCK: "A",
-  PAPER: "B",
-  SCICCOR: "C",
-};
-const ME = {
-  ROCK: "X",
-  PAPER: "Y",
-  SCICCOR: "Z",
-};
+const YOU = { A: 1, B: 2, C: 3 }; // rock, paper, sciccor
+const ME = { X: 1, Y: 2, Z: 3 }; //
+const RESULT = { LOSE: "X", TIE: "Y", WIN: "Z" };
+const points = {X: 1, Y: 2, Z: 3, W: 6, L: 0, T: 3 };
 
-const RESULT = {
-  LOSE: "X",
-  TIE: "Y",
-  WIN: "Z",
-};
-
-const points = {
-  [ME.ROCK]: 1, //rock
-  [ME.PAPER]: 2, //paper
-  [ME.SCICCOR]: 3, //scissor
-  W: 6, //win
-  L: 0, //lose
-  T: 3, //tie
-};
-
-const prepareData = () => {
-  const input = fs
+const prepareData = () => fs
     .readFileSync("./day2/input.txt", { encoding: "utf8" })
-    .trim();
-  return input.split("\n").map((x) => {
-    const [a, b] = x.split(" ");
-    return { you: a, me: b };
-  });
-};
-
+    .trim()
+    .split("\n")
+    .map((x) => ({ you: x.split(" ")[0], me: x.split(" ")[1] }));
 /*
 Part one
 */
-const p1 = () => {
-  const rounds = prepareData();
-  let score = 0;
-  rounds.forEach((r) => {
-    score += points[r.me];
-    //TIE
-    if (
-      (r.me === ME.ROCK && r.you === YOU.ROCK) ||
-      (r.me === ME.PAPER && r.you === YOU.PAPER) ||
-      (r.me === ME.SCICCOR && r.you === YOU.SCICCOR)
-    ) {
-      score += points.T;
-    }
-    //LOSE
-    else if (
-      (r.me === ME.ROCK && r.you === YOU.PAPER) ||
-      (r.me === ME.PAPER && r.you === YOU.SCICCOR) ||
-      (r.me === ME.SCICCOR && r.you === YOU.ROCK)
-    ) {
-      score += +points.L;
-    }
-    //WIN
-    else {
-      score += points.W;
-    }    
-  });
- return score
-};
+const p1 = () =>
+  prepareData().reduce(
+    (score, r) => score + points[r.me] +
+       (YOU[r.you] === ME[r.me]
+        ? points.T
+        : YOU[r.you] - ME[r.me] === -1 || YOU[r.you] - ME[r.me] === 2
+        ? points.W
+        : points.L)        
+      ,
+    0
+  );
+
 /*
 Part two
 */
