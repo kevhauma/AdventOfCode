@@ -63,8 +63,7 @@ const p1 = () => {
     //WIN
     else {
       score += points.W;
-    }
-    
+    }    
   });
  return score
 };
@@ -72,8 +71,6 @@ const p1 = () => {
 Part two
 */
 const p2 = () => {
-
-
  const rounds = prepareData();
   let score = 0;
   rounds.forEach((r) => {
@@ -101,6 +98,5 @@ const p2 = () => {
   });
   return score
 };
-
 
 module.exports = { p1, p2 };
