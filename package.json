@@ -1,0 +1,13 @@
+{
+    "name": "advent-of-code-2022",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+        "all": "node ./index.js all",
+        "last": "node ./index.js last"
+    },
+    "description": "Javascript solutions for Aoc22",
+    "main": "index.js",
+    "repository": "https://github.com/kevhauma/AdventOfCode2022.git",
+    "private": false
+}
