@@ -9,6 +9,7 @@ const prepareData = () =>
     .trim()
     .split(/\r?\n/g)
     .map((item) => item.trim().split(""));
+
 /*
 Part one
 */
@@ -33,13 +34,9 @@ const p1 = () => {
 Part two
 */
 const p2 = () => {
-  const data = prepareData();
-  const chunked = [];
-  for (let index = 0; index < data.length; index += 3) {
-    //for the love of god pls
-    chunked.push(data.slice(index, index + 3));
-  }
-  return chunked
+  return prepareData()
+    .map((_, index, data) => (index % 3 ? null : data.slice(index, index + 3)))
+    .filter(Boolean)
     .map((bags) =>
       bags[0]
         .map((item) =>
