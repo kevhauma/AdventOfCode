@@ -14,8 +14,7 @@ const prepareData = () =>
 Part one
 */
 
-const p1 = () => {
-  return prepareData()
+const p1 = () => prepareData()
     .map((item) => [
       item.slice(0, item.length / 2),
       item.slice(item.length / 2, item.length),
@@ -28,13 +27,12 @@ const p1 = () => {
     .map((sharedItems) => sharedItems[0])
     .filter(Boolean)
     .reduce((sum, item) => sum + priorities.indexOf(item[0]), 0);
-};
+
 
 /*
 Part two
 */
-const p2 = () => {
-  return prepareData()
+const p2 = () => prepareData()
     .map((_, index, data) => (index % 3 ? null : data.slice(index, index + 3)))
     .filter(Boolean)
     .map((bags) =>
@@ -47,6 +45,5 @@ const p2 = () => {
     .map((sharedItems) => sharedItems[0])
     .filter(Boolean)
     .reduce((sum, item) => sum + priorities.indexOf(item[0]), 0);
-};
 
 module.exports = { p1, p2 };
