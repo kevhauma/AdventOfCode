@@ -32,7 +32,10 @@ const prepareData = () => {
     )
     .map(([move, from, to]) => ({ move, from, to }));
 
-  return { stacks, moves };
+  return {
+    stacks: JSON.parse(JSON.stringify(stacks)),
+    moves: JSON.parse(JSON.stringify(moves)),
+  };
 };
 
 /*
@@ -40,10 +43,7 @@ Part one
 */
 
 const p1 = () => {
-  const { moves: movesData, stacks: stacksData } = prepareData();
-  //create new array, we dont want to manipulate the arrays from the source
-  const moves = JSON.parse(JSON.stringify(movesData));
-  const stacks = JSON.parse(JSON.stringify(stacksData));
+  const { moves, stacks } = prepareData();
 
   moves.forEach((move) => {
     for (let index = 0; index < move.move; index++) {
@@ -56,10 +56,7 @@ const p1 = () => {
 Part two
 */
 const p2 = () => {
-  const { moves: movesData, stacks: stacksData } = prepareData();
-  //create new array, we dont want to manipulate the arrays from the source
-  const moves = JSON.parse(JSON.stringify(movesData));
-  const stacks = JSON.parse(JSON.stringify(stacksData));
+  const { moves, stacks } = prepareData();
 
   moves.forEach((move) => {
     const tempStack = [];
