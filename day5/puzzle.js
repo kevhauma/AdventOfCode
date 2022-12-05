@@ -3,41 +3,36 @@ const fs = require("fs");
 const prepareData = () => {
   const lines = fs.readFileSync("./day5/input.txt", { encoding: "utf8" });
 
+  const splitLines = lines
+    .split(/^[[0-9|\s]+$/gm)
+    .map((lines) => lines.split(/\r\n|\r|\n/g).filter(Boolean));
+
+  const [stacksLines, movesLines] = splitLines;
+
   const stacks = [];
-  const moves = [];
-
-  const [stacksLines, aaah, ...movesLines] = lines
-    .split(/(\s[0-9]{1}\s\s?){2,}/g)
-    .map((line) => line.split(/\r?\n/g));
-
-  for (const line of stacksLines) {
-    const boxesPerLine = Array.from(line)
+  stacksLines.forEach((line) =>
+    Array.from(line)
       .map((_, index, inline) =>
         index % 4 ? null : inline.slice(index, index + 4)
       )
-      .filter(Boolean);
-
-    boxesPerLine
-      .filter((box) => /[a-zA-Z]|\s/.test(box))
+      .filter(Boolean)
       .forEach((box, index) => {
         if (!stacks[index]) stacks[index] = [];
-        stacks[index].unshift(box.join("").replace(/\[|\]/g, "").trim());
-      });
-  }
+        box[1].trim() && stacks[index].unshift(box[1].trim());
+      })
+  );
 
-  for (const line of movesLines[0].filter(Boolean)) {
-    const numbers = line
-      .split(" ")
-      .map((word) => word.replace(/[^0-9]/g, ""))
-      .filter(Boolean)
-      .map((e) => parseInt(e));
-    moves.push({ move: numbers[0], from: numbers[1], to: numbers[2] });
-  }
+  const moves = movesLines
+    .map((line) =>
+      line
+        .split(" ")
+        .map((word) => word.replace(/[^0-9]/g, ""))
+        .filter(Boolean)
+        .map((e) => parseInt(e))
+    )
+    .map(([move, from, to]) => ({ move, from, to }));
 
-  return {
-    stacks: stacks.map((stack) => stack.filter(Boolean)),
-    moves: moves,
-  };
+  return { stacks, moves };
 };
 
 /*
@@ -46,32 +41,34 @@ Part one
 
 const p1 = () => {
   const { moves: movesData, stacks: stacksData } = prepareData();
-  const moves = JSON.parse(JSON.stringify(movesData)); //create new array, we dont want to manipulate the arrays from the source
-  const stacks = JSON.parse(JSON.stringify(stacksData)); //create new array, we dont want to manipulate the arrays from the source
+  //create new array, we dont want to manipulate the arrays from the source
+  const moves = JSON.parse(JSON.stringify(movesData));
+  const stacks = JSON.parse(JSON.stringify(stacksData));
 
-  moves.forEach((move, i) => {
+  moves.forEach((move) => {
     for (let index = 0; index < move.move; index++) {
       stacks[move.to - 1].push(stacks[move.from - 1].pop());
     }
   });
-  return stacks.map((stack) => stack[stack.length - 1]).join("");
+  return stacks.map((stack) => stack.pop()).join("");
 };
 /*
 Part two
 */
 const p2 = () => {
   const { moves: movesData, stacks: stacksData } = prepareData();
-  const moves = JSON.parse(JSON.stringify(movesData)); //create new array, we dont want to manipulate the arrays from the source
-  const stacks = JSON.parse(JSON.stringify(stacksData)); //create new array, we dont want to manipulate the arrays from the source
+  //create new array, we dont want to manipulate the arrays from the source
+  const moves = JSON.parse(JSON.stringify(movesData));
+  const stacks = JSON.parse(JSON.stringify(stacksData));
 
-  moves.forEach((move, i) => {
+  moves.forEach((move) => {
     const tempStack = [];
     for (let index = 0; index < move.move; index++) {
       tempStack.push(stacks[move.from - 1].pop());
     }
     stacks[move.to - 1].push(...tempStack.reverse());
   });
-  return stacks.map((stack) => stack[stack.length - 1]).join("");
+  return stacks.map((stack) => stack.pop()).join("");
 };
 
 module.exports = { p1, p2 };
