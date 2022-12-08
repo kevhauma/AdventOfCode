@@ -67,12 +67,8 @@ const isVisibleFromBottom = (...p) => {
   checkVisibility(...p, p[0].length - 1, true, vBC.target, vBC.tall);
 };
 
-
-
-const p1 = () => {
-  const data = prepareData();
-
-  return data.reduce(
+const p1 = () =>
+  prepareData().reduce(
     (count, _, y, array) =>
       count +
       array[y].filter(
@@ -84,7 +80,6 @@ const p1 = () => {
       ).length,
     0
   );
-};
 
 /*
 Part two
@@ -113,9 +108,8 @@ const treesVisibleOnTop = (...params) =>
 const treesVisibleOnBottom = (...params) =>
   countVisibleTrees(...params, params[2] + 1, false, visibleBottomCheck);
 
-const p2 = () => {
-  const data = prepareData();
-  return data.reduce((max, _, y, array) => {
+const p2 = () =>
+  prepareData().data.reduce((max, _, y, array) => {
     const counts = array[y].map(
       (_, x) =>
         treesVisibleOnTop(array, x, y) *
@@ -127,6 +121,5 @@ const p2 = () => {
     let maxInRow = Math.max(...counts);
     return maxInRow > max ? maxInRow : max;
   }, 0);
-};
 
 module.exports = { p1, p2 };
