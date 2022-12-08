@@ -1,5 +1,33 @@
 const fs = require("fs");
 
+const visibleLeftCheck = (_d, _i, _x, _y, _h) => _i > 0 && _d[_y][_i] < _h;
+const visibleRightCheck = (_d, _i, _x, _y, _h) =>
+  _i < _d[0].length - 1 && _d[_y][_i] < _h;
+const visibleTopCheck = (_d, _i, _x, _y, _h) => _i > 0 && _d[_i][_x] < _h;
+const visibleBottomCheck = (_d, _i, _x, _y, _h) =>
+  _i < _d.length - 1 && _d[_i][_x] < _h;
+
+//LeftCheck
+const vLC = {
+  target: (_x, _y, _i) => _i < _x,
+  tall: (_d, _x, _y, _i, _t) => (_d[_y][_i] > _t ? _d[_y][_i] : _t),
+};
+//RightCheck
+const vRC = {
+  target: (_x, _y, _i) => _i > _x,
+  tall: (_d, _x, _y, _i, _t) => (_d[_y][_i] > _t ? _d[_y][_i] : _t),
+};
+//TopCheck
+const vTC = {
+  target: (_x, _y, _i) => _i < _y,
+  tall: (_d, _x, _y, _i, _t) => (_d[_i][_x] > _t ? _d[_i][_x] : _t),
+};
+//BottomCheck
+const vBC = {
+  target: (_x, _y, _i) => _i > _y,
+  tall: (_d, _x, _y, _i, _t) => (_d[_i][_x] > _t ? _d[_i][_x] : _t),
+};
+
 const prepareData = () => {
   return fs
     .readFileSync("./day8/input.txt", { encoding: "utf8" })
@@ -8,161 +36,95 @@ const prepareData = () => {
     .map((c) => c.split("").map((t) => parseInt(t)));
 };
 
-const isVisibleFromLeft = (data,x,y) => {
-const height = data[y][x];
-if(!y||!x ||y===data.length-1||x===data[y].length)
-    return true
-
-let index = 0;
-let tallestTree = 0
-while (index < x && tallestTree < height) {
-  if (data[y][index] > tallestTree) tallestTree = data[y][index];
-  ++index;
-}
-return (tallestTree < height)
-};
-const isVisibleFromRight = (data,x, y) => {
-    const height = data[y][x];
-    if (!y || !x || y === data.length - 1 || x === data[y].length) return true;
-
-    let index = data[y].length-1;
-    let tallestTree = 0;
-    while (index > x && tallestTree < height) {
-      if (data[y][index] > tallestTree) tallestTree = data[y][index];
-      --index;
-    }
-    return tallestTree < height;
-};
-const isVisibleFromTop = (data, x, y) => {
-    const height = data[y][x];
-    if (!y || !x || y === data.length - 1 || x === data[y].length) return true;
-
-    let index = 0;
-    let tallestTree = 0;
-    while (index < y && tallestTree < height) {
-      if (data[index][x] > tallestTree) tallestTree = data[index][x];
-      ++index
-    }
-    return tallestTree < height;
-};
-const isVisibleFromBottom = (data, x, y) => {
-    
-   const height = data[y][x];
-   if (!y || !x || y === data.length - 1 || x === data[y].length-1) return true;
-
-   let index = data.length-1;
-   let tallestTree = 0;
-   while (index > y && tallestTree < height) {
-     if (data[index][x] > tallestTree) tallestTree = data[index][x];
-     --index;
-   }
-   return tallestTree < height;
-
-};
-
-const treesVisibleOnLeft = (data, x, y) => {
-  const height = data[y][x];
-  if (!y || !x || y === data.length - 1 || x === data[y].length - 1)
-    return 0;
-
-   let index = x - 1;
-   let amountOfTrees = 1;
-   while (index > 0 && data[y][index] < height) {    
-     --index;
-     ++amountOfTrees;
-     
-   }
-   return amountOfTrees;  
-  
-};
-const treesVisibleOnRight = (data, x, y) => {
-  const height = data[y][x];
-  if (!y || !x || y === data.length - 1 || x === data[y].length - 1)
-    return 0;
-
-    let index = x + 1
-    let amountOfTrees = 1
-    while(index<data[0].length-1 && data[y][index] < height){
-        ++index
-        ++amountOfTrees
-    }
-    return amountOfTrees
- 
-};
-const treesVisibleOnTop = (data, x, y) => {
-  const height = data[y][x];
-  if (!y || !x || y === data.length - 1 || x === data[y].length - 1)
-    return 0;
-
-   let index = y - 1;
-   let amountOfTrees = 1;
-   while (index > 0 && data[index][x] < height) {
-     --index;
-     ++amountOfTrees;
-   }
-   return amountOfTrees;  
-};
-const treesVisibleOnBottom = (data, x, y) => {
-  const height = data[y][x];
-  if (!y || !x || y === data.length - 1 || x === data[y].length - 1)
-    return 0;
-
-   let index = y + 1;
-   let amountOfTrees = 1;
-   while (index < data.length-1 && data[index][x] < height) {
-     ++index;
-     ++amountOfTrees;
-   }
-   return amountOfTrees;
-};
-
-
 /*
 Part one
 */
 
+const checkVisibility = (data, x, y, _index, minus, targetCheck, tallCheck) => {
+  const height = data[y][x];
+  if (!y || !x || y === data.length - 1 || x === data[y].length) return true;
+
+  let index = _index;
+  let tallestTree = 0;
+  while (targetCheck(x, y, index) && tallestTree < height) {
+    tallestTree = tallCheck(data, x, y, index, tallestTree);
+    minus ? --index : ++index;
+  }
+  return tallestTree < height;
+};
+
+const isVisibleFromLeft = (...p) =>
+  checkVisibility(...p, 0, false, vLC.target, vLC.tall);
+
+const isVisibleFromRight = (...p) =>
+  checkVisibility(...p, p[0][0].length - 1, true, vRC.target, vRC.tall);
+
+const isVisibleFromTop = (...p) => {
+  checkVisibility(...p, 0, false, vTC.target, vTC.tall);
+};
+
+const isVisibleFromBottom = (...p) => {
+  checkVisibility(...p, p[0].length - 1, true, vBC.target, vBC.tall);
+};
+
+
+
 const p1 = () => {
   const data = prepareData();
-  
-  return data.reduce((count,_, y, array) =>{
-    const visibles= array[y].filter(
-      (_,x) =>
-        isVisibleFromBottom(array, x, y) ||
-        isVisibleFromTop(array, x, y) ||
-        isVisibleFromLeft(array, x, y) ||
-        isVisibleFromRight(array, x, y) 
-    )
-    //console.log(visibles)
-    return count + visibles.length
-    },0
-  );
 
+  return data.reduce(
+    (count, _, y, array) =>
+      count +
+      array[y].filter(
+        (_, x) =>
+          isVisibleFromBottom(array, x, y) ||
+          isVisibleFromTop(array, x, y) ||
+          isVisibleFromLeft(array, x, y) ||
+          isVisibleFromRight(array, x, y)
+      ).length,
+    0
+  );
 };
+
 /*
 Part two
 */
+const countVisibleTrees = (data, x, y, _index, minus, check) => {
+  const height = data[y][x];
+  if (!y || !x || y === data.length - 1 || x === data[y].length - 1) return 0;
+
+  let index = _index;
+  let amountOfTrees = 1;
+  while (check(data, index, x, y, height)) {
+    minus ? --index : ++index;
+    ++amountOfTrees;
+  }
+  return amountOfTrees;
+};
+const treesVisibleOnLeft = (...params) =>
+  countVisibleTrees(...params, params[1] - 1, true, visibleLeftCheck);
+
+const treesVisibleOnRight = (...params) =>
+  countVisibleTrees(...params, params[1] + 1, false, visibleRightCheck);
+
+const treesVisibleOnTop = (...params) =>
+  countVisibleTrees(...params, params[2] - 1, true, visibleTopCheck);
+
+const treesVisibleOnBottom = (...params) =>
+  countVisibleTrees(...params, params[2] + 1, false, visibleBottomCheck);
+
 const p2 = () => {
   const data = prepareData();
-  let highestScore =0
   return data.reduce((max, _, y, array) => {
     const counts = array[y].map(
-      (_, x) =>{
-      const [a, b, c, d] = [
-        treesVisibleOnTop(array, x, y),
-        treesVisibleOnLeft(array, x, y),
-        treesVisibleOnBottom(array, x, y),
-        treesVisibleOnRight(array, x, y),
-      ];
-    
-    const score = a*b*c*d
-    if(x==4&&y==5)
-    console.log(x, y, "-", a, b, c, d,"=",score);
-
-
-    return score
-    }
+      (_, x) =>
+        treesVisibleOnTop(array, x, y) *
+        treesVisibleOnLeft(array, x, y) *
+        treesVisibleOnBottom(array, x, y) *
+        treesVisibleOnRight(array, x, y)
     );
-    let maxInRow = Math.max(...counts)
+
+    let maxInRow = Math.max(...counts);
     return maxInRow > max ? maxInRow : max;
   }, 0);
 };
