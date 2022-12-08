@@ -1,4 +1,3 @@
-const { Console } = require("console");
 const fs = require("fs");
 const COUNT_LIMIT = 100000;
 const STORAGE_LIMIT = 70000000;
