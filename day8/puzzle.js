@@ -1,12 +1,5 @@
 const fs = require("fs");
 
-const visibleLeftCheck = (_d, _i, _x, _y, _h) => _i > 0 && _d[_y][_i] < _h;
-const visibleRightCheck = (_d, _i, _x, _y, _h) =>
-  _i < _d[0].length - 1 && _d[_y][_i] < _h;
-const visibleTopCheck = (_d, _i, _x, _y, _h) => _i > 0 && _d[_i][_x] < _h;
-const visibleBottomCheck = (_d, _i, _x, _y, _h) =>
-  _i < _d.length - 1 && _d[_i][_x] < _h;
-
 const prepareData = () => {
   return fs
     .readFileSync("./day8/input.txt", { encoding: "utf8" })
@@ -18,7 +11,6 @@ const prepareData = () => {
 /*
 Part one
 */
-
 const checkVisibility = (data, x, y, _index, whileCheck, tallCheck) => {
   const height = data[y][x];
   if (!y || !x || y === data.length - 1 || x === data[y].length - 1)
@@ -83,6 +75,13 @@ const p1 = () =>
 /*
 Part two
 */
+const visibleLeftCheck = (_d, _i, _x, _y, _h) => _i > 0 && _d[_y][_i] < _h;
+const visibleRightCheck = (_d, _i, _x, _y, _h) =>
+  _i < _d[0].length - 1 && _d[_y][_i] < _h;
+const visibleTopCheck = (_d, _i, _x, _y, _h) => _i > 0 && _d[_i][_x] < _h;
+const visibleBottomCheck = (_d, _i, _x, _y, _h) =>
+  _i < _d.length - 1 && _d[_i][_x] < _h;
+
 const countVisibleTrees = (data, x, y, _index, minus, check) => {
   const height = data[y][x];
   if (!y || !x || y === data.length - 1 || x === data[y].length - 1) return 0;
