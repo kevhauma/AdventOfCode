@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const prepareData = () => {
   return fs
-    .readFileSync("./day9/input.txt", { encoding: "utf8" })
+    .readFileSync("./day9/test.txt", { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((l) => l.split(" "));
@@ -30,41 +30,37 @@ const moveHead = (start, dir) => {
 const moveTail = (previous, next, isHead) => {
   let tail = next;
   const tailDiff = [next[0] - previous[0], next[1] - previous[1]];
-  //right follow
-  if (tailDiff[0] < -1) tail = [previous[0] - 1, previous[1]];
-  //left follow
-  if (tailDiff[0] > 1) tail = [previous[0] + 1, previous[1]];
+
   //up follow
   if (tailDiff[1] < -1) tail = [previous[0], previous[1] - 1];
   //down follow
   if (tailDiff[1] > 1) tail = [previous[0], previous[1] + 1];
+  //right follow
+  if (tailDiff[0] < -1) tail = [previous[0] - 1, previous[1]];
+  //left follow
+  if (tailDiff[0] > 1) tail = [previous[0] + 1, previous[1]];
 
-  //right corner
-  if (tailDiff[0] < -1 && tailDiff[1] !== 0) {
-    tail = [previous[0] - 1, previous[1]];
-   
-  }
-  //left corner
-  if (tailDiff[0] > 1 && tailDiff[1] !== 0) {
-    tail = [previous[0] + 1, previous[1]];
-    
-  }
   //up corner
   if (tailDiff[1] < -1 && tailDiff[0] !== 0) {
     tail = [previous[0], previous[1] - 1];
-   
-     
   }
   //down corner
   if (tailDiff[1] > 1 && tailDiff[0] !== 0) {
     tail = [previous[0], previous[1] + 1];
-    
   }
-
+  //right corner
+  if (tailDiff[0] < -1 && tailDiff[1] !== 0) {
+    tail = [previous[0] - 1, previous[1]];
+  }
+  //left corner
+  if (tailDiff[0] > 1 && tailDiff[1] !== 0) {
+    tail = [previous[0] + 1, previous[1]];
+  }
   return tail;
 };
 
 const visualize = (visited, max,min) => {
+  console.log("______________________________");
   const uniques = Array.from(new Set(visited)).map((x) => x.split(","));
   for (let y = max[1]; y >= min[1]; y--) {
     let row = "";
@@ -138,9 +134,15 @@ const p2 = () => {
         
         return newTail;
       });
+     
       head = newHead;
       tails = [...newTails];
     });
+     visualize(
+       [head.join(','),...tails.map((x) => x.join(","))],
+       max,
+       min
+     );
   });
 
   visualize(visited, max,min);
