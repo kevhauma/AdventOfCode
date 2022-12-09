@@ -121,7 +121,7 @@ const p2 = () => {
     Array.from(Array(parseInt(dis))).forEach((_) => {
       let newHead = moveHead(head, dir);
 
-      let previousTail = head;
+      let previousTail = newHead;
       const newTails = tails.map((tail,i) => {
         const newTail = moveTail(previousTail, tail);
         if(i+1===TAIL_SIZE)
