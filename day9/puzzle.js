@@ -110,7 +110,7 @@ Part two
 const p2 = () => {
   const TAIL_SIZE = 9;
 
-  const data = prepareData()//.slice(0,2);
+  const data = prepareData().slice(0,2);
   const visited = ["0,0"];
   let head = [0, 0];
   let tails = Array.from(Array(TAIL_SIZE)).map((x) => [0, 0]);
@@ -137,12 +137,9 @@ const p2 = () => {
      
       head = newHead;
       tails = [...newTails];
+      visualize([head.join(","), ...tails.map((x) => x.join(","))], max, min);
     });
-     visualize(
-       [head.join(','),...tails.map((x) => x.join(","))],
-       max,
-       min
-     );
+     
   });
 
   visualize(visited, max,min);
