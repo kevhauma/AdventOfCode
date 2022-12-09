@@ -90,7 +90,7 @@ let head = [0, 0];
 data.forEach(([dir, dis]) => {
   Array.from(Array(parseInt(dis))).forEach((_,moveIndex) => {
     let newHead = moveHead(head,dir)
-    console.log(newHead);s
+    console.log(newHead);
 
     let fullSnake = [newHead, ...tails];
     let tailIndex = 0;
@@ -100,7 +100,7 @@ data.forEach(([dir, dis]) => {
       ++tailIndex;
       let tail = fullSnake[tailIndex];
       if (!tail) return;
-      const newTail = (prevTail,tail)
+      const newTail = moveTail(prevTail,tail)
       // console.log(fullSnake[tailIndex], tail);
       visited.push(newTail.join(","));
       newTails.push(newTail);
