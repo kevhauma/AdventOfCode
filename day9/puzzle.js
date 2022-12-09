@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const prepareData = () => {
   return fs
-    .readFileSync("./day9/test.txt", { encoding: "utf8" })
+    .readFileSync("./day9/input.txt", { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((l) => l.split(" "));
@@ -41,20 +41,32 @@ const moveTail = (previous, next, isHead) => {
   if (tailDiff[0] > 1) tail = [previous[0] + 1, previous[1]];
 
   //up corner
-  if (tailDiff[1] < -1 && tailDiff[0] !== 0) {
-    tail = [previous[0], previous[1] - 1];
+  if (tailDiff[1] < -1 && tailDiff[0] < -1) {
+    tail = [previous[0] -1, previous[1] - 1];
+  }
+  if (tailDiff[1] < -1 && tailDiff[0] > 1) {
+    tail = [previous[0] +1, previous[1] - 1];
   }
   //down corner
-  if (tailDiff[1] > 1 && tailDiff[0] !== 0) {
-    tail = [previous[0], previous[1] + 1];
+  if (tailDiff[1] > 1 && tailDiff[0] < -1) {
+    tail = [previous[0] - 1, previous[1] + 1];
+  }
+  if (tailDiff[1] > 1 && tailDiff[0] > 1) {
+    tail = [previous[0] + 1, previous[1] + 1];
   }
   //right corner
-  if (tailDiff[0] < -1 && tailDiff[1] !== 0) {
-    tail = [previous[0] - 1, previous[1]];
+  if (tailDiff[0] < -1 && tailDiff[1] < -1) {
+    tail = [previous[0] - 1, previous[1] - 1];
+  }
+  if (tailDiff[0] < -1 && tailDiff[1] > 1) {
+    tail = [previous[0] - 1, previous[1] + 1];
   }
   //left corner
-  if (tailDiff[0] > 1 && tailDiff[1] !== 0) {
-    tail = [previous[0] + 1, previous[1]];
+  if (tailDiff[0] > 1 && tailDiff[1] < -1) {
+    tail = [previous[0] + 1, previous[1] - 1];
+  }
+  if (tailDiff[0] > 1 && tailDiff[1] > 1) {
+    tail = [previous[0] + 1, previous[1] + 1];
   }
   return tail;
 };
@@ -110,7 +122,7 @@ Part two
 const p2 = () => {
   const TAIL_SIZE = 9;
 
-  const data = prepareData().slice(0,2);
+  const data = prepareData()//.slice(0,2);
   const visited = ["0,0"];
   let head = [0, 0];
   let tails = Array.from(Array(TAIL_SIZE)).map((x) => [0, 0]);
@@ -137,12 +149,12 @@ const p2 = () => {
      
       head = newHead;
       tails = [...newTails];
-      visualize([head.join(","), ...tails.map((x) => x.join(","))], max, min);
+     // visualize([head.join(","), ...tails.map((x) => x.join(","))], max, min);
     });
      
   });
 
-  visualize(visited, max,min);
+  //visualize(visited, max,min);
   return new Set(visited).size;
 };
 module.exports = { p1, p2 };
