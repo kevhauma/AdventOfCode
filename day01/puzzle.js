@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const prepareData = () => {
-  const input = fs.readFileSync("./day1/input.txt", { encoding: "utf8" });
+  const input = fs.readFileSync("./day01/input.txt", { encoding: "utf8" });
   const calorieItems = input.split(/\r?\n/g);
 
   const calorieTotals = [];

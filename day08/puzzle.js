@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const prepareData = () => {
   return fs
-    .readFileSync("./day8/input.txt", { encoding: "utf8" })
+    .readFileSync("./day08/input.txt", { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((c) => c.split("").map((t) => parseInt(t)));

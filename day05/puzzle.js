@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const prepareData = () => {
-  const lines = fs.readFileSync("./day5/input.txt", { encoding: "utf8" });
+  const lines = fs.readFileSync("./day05/input.txt", { encoding: "utf8" });
 
   const splitLines = lines
     .split(/^[[0-9|\s]+$/gm)

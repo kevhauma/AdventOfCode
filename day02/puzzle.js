@@ -6,7 +6,7 @@ const RESULT = { LOSE: "X", TIE: "Y", WIN: "Z" };
 const points = {X: ME.X, Y: ME.Y, Z: ME.Z, W: 6, L: 0, T: 3, TIE: {A:ME.X,B:ME.Y,C:ME.Z}, WIN:{A:ME.Y,B:ME.Z,C:ME.X}, LOSE:{A:ME.Z,B:ME.X,C:ME.Y}};
 
 const prepareData = () => fs
-    .readFileSync("./day2/input.txt", { encoding: "utf8" })
+    .readFileSync("./day02/input.txt", { encoding: "utf8" })
     .trim()
     .split("\n")
     .map((x) => ({ you: x.split(" ")[0], me: x.split(" ")[1] }));

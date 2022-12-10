@@ -4,7 +4,7 @@ const STORAGE_LIMIT = 70000000;
 const FREE_SPACE_GOAL = 30000000;
 const prepareData = () => {
   const data = fs
-    .readFileSync("./day7/input.txt", { encoding: "utf8" })
+    .readFileSync("./day07/input.txt", { encoding: "utf8" })
     .split(/\$/g)
     .map((c) => c.trim().replace(/\r?\n/g, ","))
     .filter(Boolean);

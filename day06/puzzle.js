@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const prepareData = () =>
-  fs.readFileSync("./day6/input.txt", { encoding: "utf8" });
+  fs.readFileSync("./day06/input.txt", { encoding: "utf8" });
 
 const findIndexWithUniqueCharsInRange = (data, range) =>
   Array.from(data).reduce((marker, letter, index) => 

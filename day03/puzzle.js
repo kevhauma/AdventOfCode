@@ -5,7 +5,7 @@ const priorities =
 
 const prepareData = () =>
   fs
-    .readFileSync("./day3/input.txt", { encoding: "utf8" })
+    .readFileSync("./day03/input.txt", { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((item) => item.trim().split(""));
