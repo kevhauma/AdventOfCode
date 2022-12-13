@@ -1,4 +1,11 @@
 const fs = require("fs");
+const { deprecate } = require("util");
+
+const STATE = {
+  CONTINUE:"C",
+  CORRECT:"Y",
+  INCORRECT:"N",
+}
 
 const prepareData = () => {
   return fs
@@ -8,41 +15,43 @@ const prepareData = () => {
     .map((pairs) => pairs.split(/\r?\n/g).map((signal) => JSON.parse(signal)));
 };
 
-const compareArray = (firstArr, secondArr, index) => {
-  console.log("=========");
-  console.log("index:",index)  
-  console.log(firstArr, "[vs]", secondArr);
-  if (index === -1) return -1;
-  if(firstArr.length === 0) return ++index
-  ++index;
+const compareArray = (firstArr, secondArr) => {
+  //console.log("=========");
+  //console.log(firstArr, "[vs]", secondArr);
+  let state = STATE.CONTINUE
+  if(firstArr.length === 0) return STATE.CORRECT
   //if (index > 8) return null;
   for (const fI in firstArr) {
     let first = firstArr[fI];
     let second = secondArr[fI];
-    console.log("fs:", first,"-", second);
+    //console.log("fs:", first,"-", second);
     if (!first) {
-     return ++index
+     return STATE.CORRECT
     };
     if (!second){
-       return -1
+       return STATE.INCORRECT
       };
     //check numbers if not arrays
     if (!Array.isArray(first) && !Array.isArray(second)) {
       if (first < second) {
-         return ++index;
+         return STATE.CORRECT
       } else if (first > second) {
-       return -1
+       return STATE.INCORRECT
       }
       //if numbers are equal, dont make em into arrays
       else continue;
     }
+    
     if (!Array.isArray(first)) first = [first];
     if (!Array.isArray(second)) second = [second];
-   console.log("newArrays:",first,second)
-    index = compareArray(first, second, index);
-    if(index === -1) return -1
+    //console.log("newArrays:",first,second)
+    const deepState = compareArray(first, second);
+    //console.log("state:", deepState)
+    state = deepState
+    if(deepState !== STATE.CONTINUE)
+      return deepState
   }
-  return index
+  return state
 };
 
 /*
@@ -51,10 +60,10 @@ Part one
 const p1 = () => {
   const data = prepareData();
   return data.reduce((sum, pair,index) => {
-    console.log("===***===***===")
-    const rightOrder = compareArray(pair[0], pair[1], 1);
-    console.log(index + 1,rightOrder > 0?"y":"n",sum);
-    if (rightOrder > 0) return sum + index+1;
+    //console.log("===***===***===")
+    const state = compareArray(pair[0], pair[1]);
+    console.log(index + 1,state,sum);
+    if (state !== STATE.INCORRECT) return sum + index+1;
     else return sum
   },0);
 };
