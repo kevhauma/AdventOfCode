@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { deprecate } = require("util");
+const log = false;
 
 const STATE = {
   CONTINUE:"C",
@@ -9,22 +9,22 @@ const STATE = {
 
 const prepareData = () => {
   return fs
-    .readFileSync("./day13/input.txt", { encoding: "utf8" })
+    .readFileSync("./day13/test.txt", { encoding: "utf8" })
     .trim()
     .split(/\r?\n\r?\n/g)
     .map((pairs) => pairs.split(/\r?\n/g).map((signal) => JSON.parse(signal)));
 };
 
 const compareArray = (firstArr, secondArr) => {
-  //console.log("=========");
-  //console.log(firstArr, "[vs]", secondArr);
+  log && console.log("=========");
+log && console.log(firstArr, "[vs]", secondArr);
   let state = STATE.CONTINUE
   if(firstArr.length === 0) return STATE.CORRECT
   //if (index > 8) return null;
-  for (const fI in firstArr) {
+  for (const fI in (firstArr.length > secondArr.length ? firstArr:secondArr)) {
     let first = firstArr[fI];
     let second = secondArr[fI];
-    //console.log("fs:", first,"-", second);
+    log && console.log("fs:", first, "-", second);
     if (!first) {
      return STATE.CORRECT
     };
@@ -44,9 +44,9 @@ const compareArray = (firstArr, secondArr) => {
     
     if (!Array.isArray(first)) first = [first];
     if (!Array.isArray(second)) second = [second];
-    //console.log("newArrays:",first,second)
+    log && console.log("newArrays:", first, second);
     const deepState = compareArray(first, second);
-    //console.log("state:", deepState)
+    log && console.log("state:", deepState);
     state = deepState
     if(deepState !== STATE.CONTINUE)
       return deepState
@@ -60,9 +60,9 @@ Part one
 const p1 = () => {
   const data = prepareData();
   return data.reduce((sum, pair,index) => {
-    //console.log("===***===***===")
+    log && console.log("===***===***===")
     const state = compareArray(pair[0], pair[1]);
-    console.log(index + 1,state,sum);
+    console.log(index + 1, state, sum);
     if (state !== STATE.INCORRECT) return sum + index+1;
     else return sum
   },0);
