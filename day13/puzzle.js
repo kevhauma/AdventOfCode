@@ -9,7 +9,7 @@ const STATE = {
 
 const prepareData = () => {
   return fs
-    .readFileSync("./day13/test.txt", { encoding: "utf8" })
+    .readFileSync("./day13/input.txt", { encoding: "utf8" })
     .trim()
     .split(/\r?\n\r?\n/g)
     .map((pairs) => pairs.split(/\r?\n/g).map((signal) => JSON.parse(signal)));
@@ -25,10 +25,10 @@ log && console.log(firstArr, "[vs]", secondArr);
     let first = firstArr[fI];
     let second = secondArr[fI];
     log && console.log("fs:", first, "-", second);
-    if (!first) {
+    if (first === undefined) {
      return STATE.CORRECT
     };
-    if (!second){
+    if (second ==undefined){
        return STATE.INCORRECT
       };
     //check numbers if not arrays
@@ -39,7 +39,9 @@ log && console.log(firstArr, "[vs]", secondArr);
        return STATE.INCORRECT
       }
       //if numbers are equal, dont make em into arrays
-      else continue;
+      else{ 
+        state = STATE.CONTINUE;
+        continue};
     }
     
     if (!Array.isArray(first)) first = [first];
