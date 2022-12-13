@@ -157,4 +157,3 @@ const p2 = () => {
 };
 
 module.exports = { p1, p2 };
-p1();
