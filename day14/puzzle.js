@@ -12,25 +12,24 @@ const visualize = (walls, sand, min, max) => {
     console.log(line);
   }
 };
+const occupiedCheck = (space, maxY,part2) => (s) => part2 && space.y >= maxY + 2 ? true : s.x === space.x && s.y === space.y
+const isSpaceOccupied = (space, walls, sand, maxY, part2) =>
+  Boolean(
+    walls.find(occupiedCheck(space, maxY, part2)) ||
+      sand.find(occupiedCheck(space, maxY, part2))
+  );
 
-const isSpaceOccupied = (space, walls, sand, maxY,part2) =>
-  Boolean([...walls, ...sand]
-    .find((s) => (part2 && space.y >= maxY + 2) 
-        ? true 
-        : s.x === space.x && s.y === space.y
-        )
-    );
-
-const getNextSpace = (start, walls, sand, maxY,part2) => {
+const getNextSpace = (start, walls, sand, maxY, part2) => {
   const availableNextSpaces = [
     { x: start.x, y: start.y + 1 }, //down
     { x: start.x - 1, y: start.y + 1 }, //downLeft
     { x: start.x + 1, y: start.y + 1 }, //downRight
   ];
   for (const availableNextSpace of availableNextSpaces) {
-    if (!part2 && availableNextSpace.y > maxY) return "AAAAAAH I CANT STOP FALLING";    
-    if (!isSpaceOccupied(availableNextSpace, walls, sand,maxY,part2)) {
-      return getNextSpace(availableNextSpace, walls, sand, maxY,part2);
+    if (!part2 && availableNextSpace.y > maxY)
+      return "AAAAAAH I CANT STOP FALLING";
+    if (!isSpaceOccupied(availableNextSpace, walls, sand, maxY, part2)) {
+      return getNextSpace(availableNextSpace, walls, sand, maxY, part2);
     }
   }
   return start;
@@ -80,7 +79,10 @@ const p1 = (inputPath) => {
   const data = prepareData(inputPath);
   const sand = [];
   while (true) {
+    const t1 = performance.now();
     const sandFall = getNextSpace(chute, data.walls, sand, data.max.y);
+    const t2 = performance.now();
+    console.log(sand.length, (t2 - t1).toFixed(3), "ms");
     if (sandFall.x) sand.push(sandFall);
     else break;
   }
@@ -94,14 +96,17 @@ Part two
 const p2 = (inputPath) => {
   const data = prepareData(inputPath);
 
-  const sand =[]
+  const sand = [];
   while (true) {
-    const sandFall = getNextSpace(chute, data.walls, sand, data.max.y,true);
+    const t1 = performance.now();
+    const sandFall = getNextSpace(chute, data.walls, sand, data.max.y, true);
     sand.push(sandFall);
+    const t2 = performance.now();
+    console.log(sand.length, ((t2 - t1)).toFixed(3), "ms");
     if (sandFall.x === chute.x && sandFall.y === chute.y) break;
   }
   visualize(data.walls, sand, data.min, data.max);
-  return sand.length
+  return sand.length;
 };
 
 module.exports = { p1, p2 };
