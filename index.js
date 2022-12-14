@@ -12,6 +12,7 @@ const folders_to_exec =
 const isTest = SECOND_ARG === "test" ? "test" : "input";
 
 const times = [["day  :"], ["part1:"], ["part2:"]];
+const totalPerf1 = performance.now()
 folders_to_exec.forEach((folder) => {
   const { p1, p2 } = require(`./${folder}/puzzle.js`);
   console.log(`===== Excuting ${folder} =====`);
@@ -21,14 +22,14 @@ folders_to_exec.forEach((folder) => {
   const r1 = p1(inputFile);
   console.log(`Part 1:\t ${r1}`);
   const t2p1 = performance.now();
-  const perfP1 = durationForm(t2p1 - t1p1);
+  const perfP1 = durationFormat(t2p1 - t1p1);
   console.log(perfP1);
 
   const t1p2 = performance.now();
   const r2 = p2(inputFile);
   console.log(`Part 2:\t ${r2}`);
   const t2p2 = performance.now();
-  const perfP2 = durationForm(t2p2 - t1p2);
+  const perfP2 = durationFormat(t2p2 - t1p2);
   console.log(perfP2);
 
   console.log();
@@ -36,12 +37,16 @@ folders_to_exec.forEach((folder) => {
   times[1].push(perfP1);
   times[2].push(perfP2);
 });
-
+const totalPerf2 = performance.now();
 times.forEach((time) => {
   console.log(time.join("\t | "));
 });
 
-function durationForm(ms) {
+console.log("===***==***==")
+console.log("totalTime for AoC-2022:",durationFormat(totalPerf2-totalPerf1))
+
+
+function durationFormat(ms) {
   const seconds = Math.floor(ms / 1000);
   const remainingMillis = ms % 1000;
   const minutes = Math.floor(seconds / 60);
@@ -51,9 +56,7 @@ function durationForm(ms) {
   return `${hours ? `${hours}h ` : ""}${
     remainingMinutes ? `${remainingMinutes}m ` : ""
   }${
-    remainingSeconds
-      ? `${remainingSeconds}${remainingMillis ? "" : "s"}`
-      : ""
+    remainingSeconds ? `${remainingSeconds}${remainingMillis ? "" : "s"}` : ""
   }${
     !remainingMillis
       ? ""
