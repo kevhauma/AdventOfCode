@@ -9,7 +9,7 @@ const prepareData = (inputPath) =>
   fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
-    .split("\n")
+    .split(/\r?\n/)
     .map((x) => ({ you: x.split(" ")[0], me: x.split(" ")[1] }));
 /*
 Part one
