@@ -16,22 +16,49 @@ folders_to_exec.forEach((folder) => {
   const { p1, p2 } = require(`./${folder}/puzzle.js`);
   console.log(`===== Excuting ${folder} =====`);
   const inputFile = `./${folder}/${isTest}.txt`;
+
   const t1p1 = performance.now();
   const r1 = p1(inputFile);
   console.log(`Part 1:\t ${r1}`);
   const t2p1 = performance.now();
+  const perfP1 = durationForm(t2p1 - t1p1);
+  console.log(perfP1);
 
   const t1p2 = performance.now();
   const r2 = p2(inputFile);
   console.log(`Part 2:\t ${r2}`);
   const t2p2 = performance.now();
+  const perfP2 = durationForm(t2p2 - t1p2);
+  console.log(perfP2);
 
   console.log();
   times[0].push(folder + " ");
-  times[1].push((t2p1 - t1p1).toFixed(3) + "ms");
-  times[2].push((t2p2 - t1p2).toFixed(3) + "ms");
+  times[1].push(perfP1);
+  times[2].push(perfP2);
 });
 
 times.forEach((time) => {
   console.log(time.join("\t | "));
 });
+
+function durationForm(ms) {
+  const seconds = Math.floor(ms / 1000);
+  const remainingMillis = ms % 1000;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours ? `${hours}h ` : ""}${
+    remainingMinutes ? `${remainingMinutes}m ` : ""
+  }${
+    remainingSeconds
+      ? `${remainingSeconds}${remainingMillis ? "" : "s"}`
+      : ""
+  }${
+    !remainingMillis
+      ? ""
+      : !remainingSeconds
+      ? `${remainingMillis.toFixed(3)}ms `
+      : `.${Math.floor(remainingMillis)}s`
+  }`;
+}

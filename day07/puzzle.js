@@ -71,7 +71,7 @@ const p2 = (inputPath) => {
     .filter(({ size, dir }) => size > amountToDelete)
     .sort((a, b) => a.size - b.size)
     .shift();
-  console.log(smallest);
+  //console.log(smallest);
   return smallest.size;
 };
 

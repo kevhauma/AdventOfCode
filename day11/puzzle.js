@@ -89,7 +89,7 @@ Part two
 */
 const p2 = (inputPath) => {
   const ROUNDS = 10000;
-  const monkeys = prepareData(true);
+  const monkeys = prepareData(inputPath);
   //kinda stolen by https://github.com/CodingAP/advent-of-code/blob/main/profiles/github/2022/day11/solution.js
   //get highest value of starting data?
   let highestValue = monkeys.reduce(
