@@ -79,14 +79,12 @@ const p1 = (inputPath) => {
   const data = prepareData(inputPath);
   const sand = [];
   while (true) {
-    const t1 = performance.now();
     const sandFall = getNextSpace(chute, data.walls, sand, data.max.y);
-    const t2 = performance.now();
-    console.log(sand.length, (t2 - t1).toFixed(3), "ms");
+   
     if (sandFall.x) sand.push(sandFall);
     else break;
   }
-  visualize(data.walls, sand, data.min, data.max);
+  //visualize(data.walls, sand, data.min, data.max);
   return sand.length;
 };
 
@@ -98,14 +96,11 @@ const p2 = (inputPath) => {
 
   const sand = [];
   while (true) {
-    const t1 = performance.now();
     const sandFall = getNextSpace(chute, data.walls, sand, data.max.y, true);
-    sand.push(sandFall);
-    const t2 = performance.now();
-    console.log(sand.length, ((t2 - t1)).toFixed(3), "ms");
+    sand.push(sandFall);    
     if (sandFall.x === chute.x && sandFall.y === chute.y) break;
   }
-  visualize(data.walls, sand, data.min, data.max);
+  //visualize(data.walls, sand, data.min, data.max);
   return sand.length;
 };
 
