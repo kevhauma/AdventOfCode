@@ -1,8 +1,8 @@
 const fs = require("fs");
 
-const prepareData = () => {
+const prepareData = (inputPath) => {
   return fs
-    .readFileSync("./day09/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((l) => l.split(" "));
@@ -87,8 +87,8 @@ const visualize = (visited, max,min) => {
 /*
 Part one
 */
-const p1 = () => {
-  // const data = prepareData();
+const p1 = (inputPath) => {
+  // const data = prepareData(inputPath);
   // const visited = ["0,0"];
   // let head = [0, 0];
   // let tail = [0, 0];
@@ -119,10 +119,10 @@ const p1 = () => {
 Part two
 */
 
-const p2 = () => {
+const p2 = (inputPath) => {
   const TAIL_SIZE = 9;
 
-  const data = prepareData()//.slice(0,2);
+  const data = prepareData(inputPath)//.slice(0,2);
   const visited = ["0,0"];
   let head = [0, 0];
   let tails = Array.from(Array(TAIL_SIZE)).map((x) => [0, 0]);

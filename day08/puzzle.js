@@ -1,8 +1,8 @@
 const fs = require("fs");
 
-const prepareData = () => {
+const prepareData = (inputPath) => {
   return fs
-    .readFileSync("./day08/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((c) => c.split("").map((t) => parseInt(t)));
@@ -58,8 +58,8 @@ const isVisibleFromBottom = (...p) =>
     (_d, _x, _y, _i) => _d[_i][_x]
   );
 
-const p1 = () =>
-  prepareData().reduce(
+const p1 = (inputPath) =>
+  prepareData(inputPath).reduce(
     (count, _, y, array) =>
       count +
       array[y].filter(
@@ -106,8 +106,8 @@ const treesVisibleOnTop = (...params) =>
 const treesVisibleOnBottom = (...params) =>
   countVisibleTrees(...params, params[2] + 1, false, visibleBottomCheck);
 
-const p2 = () =>
-  prepareData().reduce((max, _, y, array) => {
+const p2 = (inputPath) =>
+  prepareData(inputPath).reduce((max, _, y, array) => {
     const counts = array[y].map(
       (_, x) =>
         treesVisibleOnTop(array, x, y) *

@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-const prepareData = () => {
-  const lines = fs.readFileSync("./day05/input.txt", { encoding: "utf8" });
+const prepareData = (inputPath) => {
+  const lines = fs.readFileSync(inputPath, { encoding: "utf8" });
 
   const splitLines = lines
     .split(/^[[0-9|\s]+$/gm)
@@ -42,8 +42,8 @@ const prepareData = () => {
 Part one
 */
 
-const p1 = () => {
-  const { moves, stacks } = prepareData();
+const p1 = (inputPath) => {
+  const { moves, stacks } = prepareData(inputPath);
 
   moves.forEach((move) => {
     for (let index = 0; index < move.move; index++) {
@@ -55,8 +55,8 @@ const p1 = () => {
 /*
 Part two
 */
-const p2 = () => {
-  const { moves, stacks } = prepareData();
+const p2 = (inputPath) => {
+  const { moves, stacks } = prepareData(inputPath);
 
   moves.forEach((move) => {
     const tempStack = [];

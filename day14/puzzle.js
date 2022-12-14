@@ -1,17 +1,14 @@
 const fs = require("fs");
 
-const prepareData = () => {
-  return fs
-    .readFileSync("./day13/test.txt", { encoding: "utf8" })
+const prepareData = (inputPath) => {
+  return fs.readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/r?\n/g)
     .map((line) =>
-      line
-        .split(" -> ")
-        .map((coords) => ({
-          x: parseInt(coords.split(",")[0]),
-          y: parseInt(coords.split(",")[1]),
-        }))
+      line.split(" -> ").map((coords) => ({
+        x: parseInt(coords.split(",")[0]),
+        y: parseInt(coords.split(",")[1]),
+      }))
     );
 };
 
@@ -19,8 +16,8 @@ const prepareData = () => {
 /*
 Part one
 */
-const p1 = () => {
-  const data = prepareData();
+const p1 = (inputPath) => {
+  const data = prepareData(inputPath);
  console.log(data)
 };
 
@@ -28,8 +25,8 @@ const p1 = () => {
 /*
 Part two
 */
-const p2 = () => {
-  const data = prepareData();
+const p2 = (inputPath) => {
+  const data = prepareData(inputPath);
   
 };
 

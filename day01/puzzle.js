@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-const prepareData = () => {
-  const input = fs.readFileSync("./day01/input.txt", { encoding: "utf8" });
+const prepareData = (inputPath) => {
+  const input = fs.readFileSync(inputPath, { encoding: "utf8" });
   const calorieItems = input.split(/\r?\n/g);
 
   const calorieTotals = [];
@@ -21,16 +21,16 @@ const prepareData = () => {
 Part one
 */
 
-const p1 = () => {
-  const calorieTotals = prepareData();
+const p1 = (inputPath) => {
+  const calorieTotals = prepareData(inputPath);
   return Math.max(...calorieTotals);
 };
 
 /*
 Part two
 */
-const p2 = () => {
-  const calorieTotals = prepareData();
+const p2 = (inputPath) => {
+  const calorieTotals = prepareData(inputPath);
   return calorieTotals
     .sort((a, b) => b - a)
     .slice(0, 3)

@@ -7,9 +7,9 @@ const STATE = {
   INCORRECT: "N",
 };
 
-const prepareData = () => {
+const prepareData = (inputPath) => {
   return fs
-    .readFileSync("./day13/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/\r?\n\r?\n/g)
     .map((pairs) => pairs.split(/\r?\n/g).map((signal) => JSON.parse(signal)));
@@ -19,8 +19,7 @@ const compareArray = (firstArr, secondArr) => {
   log && console.log("=========");
   log && console.log(firstArr, "[vs]", secondArr);
   let state = STATE.CONTINUE;
-  if (firstArr.length === 0 && secondArr.length !== 0)
-    return STATE.CORRECT;
+  if (firstArr.length === 0 && secondArr.length !== 0) return STATE.CORRECT;
   //if (index > 8) return null;
   for (const fI in firstArr.length > secondArr.length ? firstArr : secondArr) {
     let first = firstArr[fI];
@@ -61,12 +60,12 @@ const compareArray = (firstArr, secondArr) => {
 /*
 Part one
 */
-const p1 = () => {
-  const data = prepareData();
+const p1 = (inputPath) => {
+  const data = prepareData(inputPath);
   return data.reduce((sum, pair, index) => {
     log && console.log("===***===***===");
     const state = compareArray(pair[0], pair[1], true);
-    log&&console.log(index + 1, state, sum);
+    log && console.log(index + 1, state, sum);
     if (state !== STATE.INCORRECT) return sum + index + 1;
     else return sum;
   }, 0);
@@ -74,34 +73,34 @@ const p1 = () => {
 
 const findFirstInt = (array) => {
   for (const item of array) {
-    if (!Array.isArray(item))
-       return item
-    else
-      return findFirstInt(item);
+    if (!Array.isArray(item)) return item;
+    else return findFirstInt(item);
   }
 };
 
 /*
 Part two
 */
-const p2 = () => {
-  const data = prepareData();
+const p2 = (inputPath) => {
+  const data = prepareData(inputPath);
   let ordered = { 2: [[[2]]], 6: [[[6]]] };
   data.flat().forEach((packet) => {
     let int = findFirstInt(packet);
-    if (int===undefined) int = '-1'
+    if (int === undefined) int = "-1";
     if (!ordered[`${int}`]) ordered[`${int}`] = [packet];
     else ordered[`${int}`].push([packet]);
-  })
+  });
 
-let twoDivider = 1
-let sixDivider = 1
+  let twoDivider = 1;
+  let sixDivider = 1;
 
-  Object.keys(ordered).sort().forEach(or=>{
-if(parseInt(or) < 2) twoDivider += ordered[or].length
-if(parseInt(or) < 6) sixDivider += ordered[or].length
-  })
-return twoDivider*sixDivider
+  Object.keys(ordered)
+    .sort()
+    .forEach((or) => {
+      if (parseInt(or) < 2) twoDivider += ordered[or].length;
+      if (parseInt(or) < 6) sixDivider += ordered[or].length;
+    });
+  return twoDivider * sixDivider;
 };
 
 module.exports = { p1, p2 };

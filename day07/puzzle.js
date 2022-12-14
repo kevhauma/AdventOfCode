@@ -2,9 +2,9 @@ const fs = require("fs");
 const COUNT_LIMIT = 100000;
 const STORAGE_LIMIT = 70000000;
 const FREE_SPACE_GOAL = 30000000;
-const prepareData = () => {
+const prepareData = (inputPath) => {
   const data = fs
-    .readFileSync("./day07/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .split(/\$/g)
     .map((c) => c.trim().replace(/\r?\n/g, ","))
     .filter(Boolean);
@@ -51,8 +51,8 @@ function readDir(dir, data) {
 Part one
 */
 
-const p1 = () => {
-  const data = prepareData();
+const p1 = (inputPath) => {
+  const data = prepareData(inputPath);
 
   return data.reduce((sum, current) => {
     return current.size > COUNT_LIMIT ? sum : sum + current.size;
@@ -61,8 +61,8 @@ const p1 = () => {
 /*
 Part two
 */
-const p2 = () => {
-  const data = prepareData();
+const p2 = (inputPath) => {
+  const data = prepareData(inputPath);
 
   const { size: totalUsed } = data.find(({ dir }) => dir === ".");
   const spaceFree = STORAGE_LIMIT - totalUsed;

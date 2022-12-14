@@ -3,9 +3,9 @@ const fs = require("fs");
 const priorities =
   "0abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-const prepareData = () =>
+const prepareData = (inputPath) =>
   fs
-    .readFileSync("./day03/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((item) => item.trim().split(""));
@@ -14,7 +14,7 @@ const prepareData = () =>
 Part one
 */
 
-const p1 = () => prepareData()
+const p1 = (inputPath) => prepareData(inputPath)
     .map((item) => [
       item.slice(0, item.length / 2),
       item.slice(item.length / 2, item.length),
@@ -32,7 +32,7 @@ const p1 = () => prepareData()
 /*
 Part two
 */
-const p2 = () => prepareData()
+const p2 = (inputPath) => prepareData(inputPath)
     .map((_, index, data) => (index % 3 ? null : data.slice(index, index + 3)))
     .filter(Boolean)
     .map((bags) =>

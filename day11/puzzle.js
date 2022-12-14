@@ -2,9 +2,9 @@ const fs = require("fs");
 
 const bInt = (value, bigInt) => (bigInt ? BigInt(value) : value);
 
-const prepareData = () => {
+const prepareData = (inputPath) => {
   return fs
-    .readFileSync("./day11/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/\r?\n\r?\n\s*/g)
     .filter(Boolean)
@@ -45,7 +45,7 @@ const findMonkey = (monkeys, name) => {
 Part one
 */
 
-const p1 = () => {
+const p1 = (inputPath) => {
   //do for 20 rounds:
   //monkey "operates item", changes worry level, add 1 to count
   // worry levels get divided by 3, Math.floor
@@ -57,7 +57,7 @@ const p1 = () => {
   //after 20 rounds: find and sum the top 2 monkeys
 
   const ROUNDS = 20;
-  const monkeys = prepareData();
+  const monkeys = prepareData(inputPath);
   Array.from(Array(ROUNDS)).forEach((_, round) => {
     monkeys.forEach((mon) => {
       mon.startingItems.forEach((item) => {
@@ -87,7 +87,7 @@ const p1 = () => {
 /*F
 Part two
 */
-const p2 = () => {
+const p2 = (inputPath) => {
   const ROUNDS = 10000;
   const monkeys = prepareData(true);
   //kinda stolen by https://github.com/CodingAP/advent-of-code/blob/main/profiles/github/2022/day11/solution.js

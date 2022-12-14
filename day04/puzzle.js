@@ -1,8 +1,8 @@
 const fs = require("fs");
 
-const prepareData = () =>
+const prepareData = (inputPath) =>
   fs
-    .readFileSync("./day04/input.txt", { encoding: "utf8" })
+    .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
     .split(/\r?\n/g)
     .map((item) =>
@@ -19,10 +19,10 @@ const prepareData = () =>
 Part one
 */
 
-const p1 = () =>
+const p1 = (inputPath) =>
   //my start is after other start. AND my end is before other end
   //and vice versa
-  prepareData().filter(
+  prepareData(inputPath).filter(
     ([first, second]) =>
       (first.min >= second.min && first.max <= second.max) ||
       (second.min >= first.min && second.max <= first.max)
@@ -31,9 +31,9 @@ const p1 = () =>
 /*
 Part two
 */
-const p2 = () =>
+const p2 = (inputPath) =>
   // my start is before other end, AND my end is after other start
-  prepareData().filter(
+  prepareData(inputPath).filter(
     ([first, second]) => first.min <= second.max && first.max >= second.min
   ).length;
 
