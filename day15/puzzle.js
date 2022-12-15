@@ -1,18 +1,5 @@
 const fs = require("fs");
 
-const visualize = (coveredSpots, beacons, sensors, min, max) => {
-  for (let y = min.y; y <= max.y; y++) {
-    let line = y + ":\t ";
-    for (let x = min.x; x <= max.x; x++) {
-      if (sensors.find((s) => s.x === x && s.y === y)) line += "S";
-      else if (beacons.find((b) => b.x === x && b.y === y)) line += "B";
-      else if (coveredSpots[`${x},${y}`]) line += "#";
-      else line += ".";
-    }
-    console.log(line);
-  }
-};
-
 const getDistance = (p1, p2) => Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
 const prepareData = (inputPath) => {
@@ -38,7 +25,8 @@ const p1 = (inputPath) => {
   const LINE_TO_CHECK = inputPath.includes("test") ? 10 : 2000000;
 
   const data = prepareData(inputPath);
-  const coveredSpots = {};
+  const coveredSpots = [];
+
   data.forEach(({ sensor, beacon, distance }) => {
     if (
       !(
@@ -54,27 +42,14 @@ const p1 = (inputPath) => {
     });
     const overshoot = Math.abs(distance - distanceToLine);
 
-    for (let x = sensor.x - overshoot; x <= sensor.x + overshoot; x++) {
-      if (
-        !data.find(
-          ({ beacon: b, sensor: s }) =>
-            (b.x === x && b.y === LINE_TO_CHECK) ||
-            (s.x === x && s.y === LINE_TO_CHECK)
-        )
-      )
-        coveredSpots[`${x},${LINE_TO_CHECK}`] = true;
-    }
+    coveredSpots.push({ s: sensor.x - overshoot, e: sensor.x + overshoot });
   });
-//   visualize(
-//     coveredSpots,
-//     data.map((d) => d.beacon),
-//     data.map((d) => d.sensor),
-//     { x: 0, y: 0 },
-//     { x: 20, y: 20 }
-//   );
-  return Object.keys(coveredSpots)
-    .filter((key) => coveredSpots[key])
-    .filter((spot) => parseInt(spot.split(",")[1]) === LINE_TO_CHECK).length;
+  const amount = coveredSpots
+    .sort((a, b) => a.s - b.s)
+    .reduce((total, curr) =>
+      total.e < curr.s && curr.e > total.e ? { s: total.s, e: curr.e } : total
+    );
+  return amount.e - amount.s;
 };
 
 /*
@@ -87,8 +62,6 @@ const p2 = (inputPath) => {
   let distress = null;
 
   for (const { sensor, beacon, distance } of data) {
-    const p1 = performance.now();
-
     distanceToCheck = distance + 1; //only search 1 out fron the boundary
 
     const spotsToSearch = [];
@@ -109,7 +82,7 @@ const p2 = (inputPath) => {
           spot.x > 0 && spot.y > 0 && spot.x < MAX_COORD && spot.y < MAX_COORD
       )
       .forEach((spot) => {
-       // coveredSpots[`${spot.x},${spot.y}`] = true;
+        // coveredSpots[`${spot.x},${spot.y}`] = true;
         //find all sensor that I'm in range in
         const inRangeOfSensors = data.filter(({ sensor, beacon, distance }) => {
           //find distance between possible spot and sensor
@@ -122,8 +95,6 @@ const p2 = (inputPath) => {
         if (inRangeOfSensors.length === 0)
           distress = { spot, sensor, beacon, distance };
       });
-    const p2 = performance.now();
-    console.log("took:", p2 - p1, "ms");
     if (distress) break;
   }
 

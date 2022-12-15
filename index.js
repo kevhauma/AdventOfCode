@@ -8,7 +8,7 @@ const folders = fs
   .sort()
   .filter((f) => f.includes("day"));
 const folders_to_exec =
-  FIRST_ARG === "all" ? folders : folders.reverse().slice(0, 1);
+  FIRST_ARG === "all" ? folders :  folders.reverse().slice(0, 1);
 const isTest = SECOND_ARG === "test" ? "test" : "input";
 
 const times = [["day  :"], ["part1:"], ["part2:"]];
