@@ -1,116 +1,131 @@
-const fs = require("fs");
+const bfs = (grid, starting, ending) => {
+  let queue = [];
+  let visited = [starting];
 
-const prepareData = (inputString,inputPath) => {
-  const valves = inputString
-    .trim()
-    .split(/r?\n/g)
-    .map((line) => {
-      const [valve, tunnel] = line.split(";");
-      const [namestring, flow] = valve.split("has");
-      const valveName = namestring.split(" ")[1];
-      const valeFlowRate = parseInt(flow.replace(/[^0-9]/g, ""));
-      const tunnels = tunnel
-        .split(/valves?/)[1]
-        .split(",")
-        .map((t) => t.trim());
-      return {
-        name: valveName,
-        flowRate: valeFlowRate,
-        open: false,
-        tunnels,
-        distances: [],
-      };
-    });
-  return valves.sort((a, b) => a.name.localeCompare(b.name));
-};
+  if (starting == ending) return [starting];
+  queue.push([starting]);
 
-const findDistance = (
-  startValve,
-  endValve,
-  currentDistance,
-  data,
-  distances
-) => {
-  const con1Name = `${startValve},${endValve}`;
-  const con2Name = `${endValve},${startValve}`;
-  if (startValve === endValve) return currentDistance;
-  if (currentDistance > data.length) return currentDistance;
+  while (queue.length > 0) {
+    let path = queue.shift();
+    let node = path[path.length - 1];
 
-  if (!distances[con1Name] && !distances[con2Name]) {
-    const startValveData = data.find((d) => d.name === startValve);
-    const distancesToTunnels = startValveData.tunnels.map((nextValve) => {
-      return findDistance(
-        nextValve,
-        endValve,
-        currentDistance + 1,
-        data,
-        distances
-      );
-    });
-    return Math.min(...distancesToTunnels);
-  } else {
-    return (distances[con1Name] || distances[con2Name]) + 1;
+    for (let neighbor of grid[node]) {
+      if (visited.includes(neighbor)) continue;
+
+      if (neighbor == ending) return path.concat([neighbor]);
+      visited.push(neighbor);
+      queue.push(path.concat([neighbor]));
+    }
   }
-};
-/*
-Part one
-*/
-const p1 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
-return
-  let minutesLeft = 30;
 
-  const allValves = data.map((d) => d.name);
-  const distances = {};
-  data.forEach((d) => {
-    allValves.forEach((valveToFind) => {
-      const distance = findDistance(d.name, valveToFind, 0, data, distances);
-      distances[`${d.name},${valveToFind}`] = distance;
-      if (valveToFind !== d.name)
-        d.distances.push({ end: valveToFind, distance });
+  return [];
+};
+
+const findRates = (distances, valve, minutes, left, opened = {}) => {
+  let allRates = [opened];
+
+  left.forEach((other, index) => {
+    let newMinutes = minutes - distances[valve][other] - 1;
+    if (newMinutes < 1) return;
+
+    let newOpened = JSON.parse(JSON.stringify(opened));
+    newOpened[other] = newMinutes;
+
+    let newLeft = [...left];
+    newLeft.splice(index, 1);
+
+    allRates.push(
+      ...findRates(distances, other, newMinutes, newLeft, newOpened)
+    );
+  });
+
+  return allRates;
+};
+
+const p1 = (input) => {
+  let graph = {},
+    rates = {};
+
+  input
+    .trim()
+    .split(/\r?\n/g)
+    .forEach((line) => {
+      let tokens = line.replace(/,/g, "").split(" ");
+      graph[tokens[1]] = tokens.slice(9);
+      rates[tokens[1]] = parseInt(tokens[4].replace(";", "").split("=")[1]);
+    });
+
+  let distances = {};
+  Object.keys(graph).forEach((start) => {
+    Object.keys(graph).forEach((end) => {
+      if (distances[start] == null) distances[start] = {};
+      distances[start][end] = bfs(graph, start, end).length - 1;
     });
   });
-  let score = 0;
-  let currentValve = "AA";
 
-  while (minutesLeft >= 0) {
-    const currentValvaData = data.find((d) => d.name === currentValve);
-    const valvesToCheck = data.filter(
-      (d) => !d.open && d.name !== currentValve
-    );
-    let maxScoreForThisRound = { score: 0, valve: null, distance: 0 };
-    valvesToCheck.forEach((valveToCheck) => {
-      const distanceToValve = currentValvaData.distances.find(
-        ({ end }) => valveToCheck.name === end
-      );
-      const possibleScore =
-        (minutesLeft - (distanceToValve.distance+1)) * valveToCheck.flowRate;
-      console.log(
-        valveToCheck.name,
-        possibleScore,
-        minutesLeft,
-        distanceToValve.distance,
-        valveToCheck.flowRate
-      );
-      if (possibleScore > maxScoreForThisRound.score) {
-        maxScoreForThisRound = {
-          score: possibleScore,
-          valve: valveToCheck,
-          distance: distanceToValve,
-        };
-      }
-    });
-    //doesnt give me right score, pls help
-    console.log(maxScoreForThisRound);
-    minutesLeft -= 29;
-  }
+  let nonzeroValves = Object.keys(graph).filter((valve) => rates[valve] != 0);
+  return findRates(distances, "AA", 30, nonzeroValves)
+    .map((path) =>
+      Object.entries(path).reduce(
+        (acc, [key, value]) => acc + rates[key] * value,
+        0
+      )
+    )
+    .sort((a, b) => b - a)[0];
 };
 
-/*
-Part two
-*/
-const p2 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+const p2 = (input) => {
+  let graph = {},
+    rates = {};
+
+  input
+    .trim()
+    .split(/\r?\n/g)
+    .forEach((line) => {
+      let tokens = line.replace(/,/g, "").split(" ");
+
+      graph[tokens[1]] = tokens.slice(9);
+      rates[tokens[1]] = parseInt(tokens[4].replace(";", "").split("=")[1]);
+    });
+
+  let distances = {};
+  Object.keys(graph).forEach((start) => {
+    Object.keys(graph).forEach((end) => {
+      if (distances[start] == null) distances[start] = {};
+      distances[start][end] = bfs(graph, start, end).length - 1;
+    });
+  });
+
+  let nonzeroValves = Object.keys(graph).filter((valve) => rates[valve] != 0);
+  let allRates = findRates(distances, "AA", 26, nonzeroValves);
+
+  let maxScores = {};
+  allRates.forEach((rate) => {
+    let key = Object.keys(rate).sort().join(",");
+    let score = Object.entries(rate).reduce(
+      (acc, [key, value]) => acc + rates[key] * value,
+      0
+    );
+
+    if (maxScores[key] == null) maxScores[key] = -Infinity;
+    maxScores[key] = Math.max(score, maxScores[key]);
+  });
+
+  let highest = -Infinity;
+  Object.keys(maxScores).forEach((player) => {
+    Object.keys(maxScores).forEach((elephant) => {
+      let allValves = new Set();
+      let playerList = player.split(",");
+      playerList.forEach((valve) => allValves.add(valve));
+      let elephantList = elephant.split(",");
+      elephantList.forEach((valve) => allValves.add(valve));
+
+      if (allValves.size == playerList.length + elephantList.length)
+        highest = Math.max(maxScores[player] + maxScores[elephant], highest);
+    });
+  });
+
+  return highest;
 };
 
 module.exports = { p1, p2 };

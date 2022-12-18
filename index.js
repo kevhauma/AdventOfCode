@@ -1,5 +1,10 @@
 const fs = require("fs");
 
+const v8 = require("v8");
+v8.setFlagsFromString("--stack-size=3145728");
+
+
+console.log(process.argv)
 const FIRST_ARG = process.argv[2];
 const SECOND_ARG = process.argv[3];
 
@@ -8,9 +13,10 @@ const folders = fs
   .sort()
   .filter((f) => f.includes("day"));
 
+  const secondArgNumber = parseInt(SECOND_ARG)
+const txtFile = FIRST_ARG === "test" ? "test" : "input";
 const folders_to_exec =
-  FIRST_ARG === "all" ? folders :  folders.reverse().slice(0, 1);
-const txtFile = SECOND_ARG === "test" ? "test" : "input";
+  FIRST_ARG === "all" ? folders : !isNaN(secondArgNumber) ? folders.slice(secondArgNumber-1, secondArgNumber) : folders.reverse().slice(0, 1);
 
 const times = [["day  :\t"],["read:\t"], ["part1:\t"], ["part2:\t"],["total:\t"]];
 const totalPerf1 = performance.now()

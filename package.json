@@ -3,8 +3,8 @@
     "version": "0.0.1",
     "license": "MIT",
     "scripts": {
-        "all": "node ./index.js all",
-        "last": "node ./index.js last"
+        "test": "node  ./index.js test",
+        "real": "node  ./index.js real"
     },
     "description": "Javascript solutions for Aoc22",
     "main": "index.js",
