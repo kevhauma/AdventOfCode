@@ -3,8 +3,7 @@ const COUNT_LIMIT = 100000;
 const STORAGE_LIMIT = 70000000;
 const FREE_SPACE_GOAL = 30000000;
 const prepareData = (inputString,inputPath) => {
-  const data = fs
-    .readFileSync(inputPath, { encoding: "utf8" })
+  const data = inputString
     .split(/\$/g)
     .map((c) => c.trim().replace(/\r?\n/g, ","))
     .filter(Boolean);

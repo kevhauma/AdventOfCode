@@ -34,8 +34,7 @@ const getNextSpace = (start, walls, sand, maxY, part2) => {
   return start;
 };
 const prepareData = (inputString,inputPath) => {
-  const wallCommands = fs
-    .readFileSync(inputPath, { encoding: "utf8" })
+  const wallCommands = inputString
     .trim()
     .split(/r?\n/g)
     .map((line) =>

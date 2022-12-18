@@ -3,8 +3,7 @@ const fs = require("fs");
 const getDistance = (p1, p2) => Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
 const prepareData = (inputString,inputPath) => {
-  return fs
-    .readFileSync(inputPath, { encoding: "utf8" })
+  return inputString
     .trim()
     .split(/r?\n/g)
     .map((line) => {

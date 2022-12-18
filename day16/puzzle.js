@@ -1,8 +1,7 @@
 const fs = require("fs");
 
 const prepareData = (inputString,inputPath) => {
-  const valves = fs
-    .readFileSync(inputPath, { encoding: "utf8" })
+  const valves = inputString
     .trim()
     .split(/r?\n/g)
     .map((line) => {

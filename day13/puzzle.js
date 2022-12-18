@@ -8,8 +8,7 @@ const STATE = {
 };
 
 const prepareData = (inputString,inputPath) => {
-  return fs
-    .readFileSync(inputPath, { encoding: "utf8" })
+  return inputString
     .trim()
     .split(/\r?\n\r?\n/g)
     .map((pairs) => pairs.split(/\r?\n/g).map((signal) => JSON.parse(signal)));

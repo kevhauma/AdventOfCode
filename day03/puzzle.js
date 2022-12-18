@@ -4,8 +4,7 @@ const priorities =
   "0abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 const prepareData = (inputString,inputPath) =>
-  fs
-    .readFileSync(inputPath, { encoding: "utf8" })
+  inputString
     .trim()
     .split(/\r?\n/g)
     .map((item) => item.trim().split(""));
