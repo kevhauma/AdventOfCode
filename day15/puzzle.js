@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const getDistance = (p1, p2) => Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   return fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -21,10 +21,10 @@ const prepareData = (inputPath) => {
 /*
 Part one
 */
-const p1 = (inputPath) => {
+const p1 = (inputString,inputPath) => {
   const LINE_TO_CHECK = inputPath.includes("test") ? 10 : 2000000;
 
-  const data = prepareData(inputPath);
+  const data = prepareData(inputString,inputPath);
   const coveredSpots = [];
 
   data.forEach(({ sensor, beacon, distance }) => {
@@ -55,8 +55,8 @@ const p1 = (inputPath) => {
 /*
 Part two
 */
-const p2 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p2 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
 
   const MAX_COORD = inputPath.includes("test") ? 20 : 4000000;
   let distress = null;

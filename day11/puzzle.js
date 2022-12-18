@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const bInt = (value, bigInt) => (bigInt ? BigInt(value) : value);
 
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   return fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -45,7 +45,7 @@ const findMonkey = (monkeys, name) => {
 Part one
 */
 
-const p1 = (inputPath) => {
+const p1 = (inputString,inputPath) => {
   //do for 20 rounds:
   //monkey "operates item", changes worry level, add 1 to count
   // worry levels get divided by 3, Math.floor
@@ -57,7 +57,7 @@ const p1 = (inputPath) => {
   //after 20 rounds: find and sum the top 2 monkeys
 
   const ROUNDS = 20;
-  const monkeys = prepareData(inputPath);
+  const monkeys = prepareData(inputString,inputPath);
   Array.from(Array(ROUNDS)).forEach((_, round) => {
     monkeys.forEach((mon) => {
       mon.startingItems.forEach((item) => {
@@ -87,9 +87,9 @@ const p1 = (inputPath) => {
 /*F
 Part two
 */
-const p2 = (inputPath) => {
+const p2 = (inputString,inputPath) => {
   const ROUNDS = 10000;
-  const monkeys = prepareData(inputPath);
+  const monkeys = prepareData(inputString,inputPath);
   //kinda stolen by https://github.com/CodingAP/advent-of-code/blob/main/profiles/github/2022/day11/solution.js
   //get highest value of starting data?
   let highestValue = monkeys.reduce(

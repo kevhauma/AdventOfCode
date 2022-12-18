@@ -7,7 +7,7 @@ const STATE = {
   INCORRECT: "N",
 };
 
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   return fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -60,8 +60,8 @@ const compareArray = (firstArr, secondArr) => {
 /*
 Part one
 */
-const p1 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p1 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
   return data.reduce((sum, pair, index) => {
     log && console.log("===***===***===");
     const state = compareArray(pair[0], pair[1], true);
@@ -81,8 +81,8 @@ const findFirstInt = (array) => {
 /*
 Part two
 */
-const p2 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p2 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
   let ordered = { 2: [[[2]]], 6: [[[6]]] };
   data.flat().forEach((packet) => {
     let int = findFirstInt(packet);

@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   const strengths = [];
   let cycleNumber = 0;
   fs.readFileSync(inputPath, { encoding: "utf8" })
@@ -39,8 +39,8 @@ const prepareData = (inputPath) => {
 Part one
 */
 
-const p1 = (inputPath) => {
-  const strengths = prepareData(inputPath);
+const p1 = (inputString,inputPath) => {
+  const strengths = prepareData(inputString,inputPath);
 
   let indexToCheck = 20;
 
@@ -60,9 +60,9 @@ const p1 = (inputPath) => {
 /*F
 Part two
 */
-const p2 = (inputPath) => {
+const p2 = (inputString,inputPath) => {
   const SCREEN_WIDTH = 40;
-  const strengths = prepareData(inputPath);
+  const strengths = prepareData(inputString,inputPath);
   let outputLines = ["\n"];
   let line = [];
   let spritePos = [0, 1, 2];

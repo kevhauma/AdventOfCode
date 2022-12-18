@@ -4,7 +4,7 @@ const findNode = (nodes, x, y) => {
   return nodes.find((n) => x === n.x && y === n.y);
 };
 
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   return fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -111,8 +111,8 @@ const findDistance = (nodes, start, end, part1) => {
 /*
 Part one
 */
-const p1 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p1 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
 
   let startNode = { letter: "a", x: -1, y: -1 };
   let endNode = { letter: "E", x: -1, y: -1 };
@@ -136,8 +136,8 @@ const p1 = (inputPath) => {
 /*
 Part two
 */
-const p2 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p2 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
 
   let endNode = { letter: "E", x: -1, y: -1 };
   const allNodes = [];

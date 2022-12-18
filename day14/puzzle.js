@@ -33,7 +33,7 @@ const getNextSpace = (start, walls, sand, maxY, part2) => {
   }
   return start;
 };
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   const wallCommands = fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -79,8 +79,8 @@ const prepareData = (inputPath) => {
 /*
 Part one
 */
-const p1 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p1 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
   
   const sand = {};
   while (true) {
@@ -95,8 +95,8 @@ const p1 = (inputPath) => {
 /*
 Part two
 */
-const p2 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p2 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
 
   const sand = [];
   while (true) {

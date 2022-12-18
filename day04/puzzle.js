@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const prepareData = (inputPath) =>
+const prepareData = (inputString,inputPath) =>
   fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -19,10 +19,10 @@ const prepareData = (inputPath) =>
 Part one
 */
 
-const p1 = (inputPath) =>
+const p1 = (inputString,inputPath) =>
   //my start is after other start. AND my end is before other end
   //and vice versa
-  prepareData(inputPath).filter(
+  prepareData(inputString,inputPath).filter(
     ([first, second]) =>
       (first.min >= second.min && first.max <= second.max) ||
       (second.min >= first.min && second.max <= first.max)
@@ -31,9 +31,9 @@ const p1 = (inputPath) =>
 /*
 Part two
 */
-const p2 = (inputPath) =>
+const p2 = (inputString,inputPath) =>
   // my start is before other end, AND my end is after other start
-  prepareData(inputPath).filter(
+  prepareData(inputString,inputPath).filter(
     ([first, second]) => first.min <= second.max && first.max >= second.min
   ).length;
 

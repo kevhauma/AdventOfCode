@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const prepareData = (inputPath) =>
+const prepareData = (inputString,inputPath) =>
   fs.readFileSync(inputPath, { encoding: "utf8" });
 
 const findIndexWithUniqueCharsInRange = (data, range) =>
@@ -15,11 +15,11 @@ const findIndexWithUniqueCharsInRange = (data, range) =>
 /*
 Part one
 */
-const p1 = (inputPath) => findIndexWithUniqueCharsInRange(prepareData(inputPath), 4);
+const p1 = (inputString,inputPath) => findIndexWithUniqueCharsInRange(prepareData(inputString,inputPath), 4);
 
 /*
 Part two
 */
-const p2 = (inputPath) => findIndexWithUniqueCharsInRange(prepareData(inputPath), 14);
+const p2 = (inputString,inputPath) => findIndexWithUniqueCharsInRange(prepareData(inputString,inputPath), 14);
 
 module.exports = { p1, p2 };

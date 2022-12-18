@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const prepareData = (inputPath) => {
+const prepareData = (inputString,inputPath) => {
   const valves = fs
     .readFileSync(inputPath, { encoding: "utf8" })
     .trim()
@@ -56,9 +56,9 @@ const findDistance = (
 /*
 Part one
 */
-const p1 = (inputPath) => {
-  const data = prepareData(inputPath);
-
+const p1 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
+return
   let minutesLeft = 30;
 
   const allValves = data.map((d) => d.name);
@@ -101,6 +101,7 @@ const p1 = (inputPath) => {
         };
       }
     });
+    //doesnt give me right score, pls help
     console.log(maxScoreForThisRound);
     minutesLeft -= 29;
   }
@@ -109,8 +110,8 @@ const p1 = (inputPath) => {
 /*
 Part two
 */
-const p2 = (inputPath) => {
-  const data = prepareData(inputPath);
+const p2 = (inputString,inputPath) => {
+  const data = prepareData(inputString,inputPath);
 };
 
 module.exports = { p1, p2 };
