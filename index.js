@@ -1,10 +1,5 @@
 const fs = require("fs");
 
-const v8 = require("v8");
-v8.setFlagsFromString("--stack-size=3145728");
-
-
-console.log(process.argv)
 const FIRST_ARG = process.argv[2];
 const SECOND_ARG = process.argv[3];
 
