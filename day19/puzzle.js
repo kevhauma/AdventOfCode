@@ -1,0 +1,1 @@
+module.exports = { p1: () => "ew", p2: () => "ew" };

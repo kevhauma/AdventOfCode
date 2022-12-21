@@ -7,19 +7,29 @@ const folders = fs
   .readdirSync("./")
   .sort()
   .filter((f) => f.includes("day"));
-
-  const secondArgNumber = parseInt(SECOND_ARG)
+const secondArgNumber = parseInt(SECOND_ARG);
 const txtFile = FIRST_ARG === "test" ? "test" : "input";
-const folders_to_exec =
-  FIRST_ARG === "all" ? folders : !isNaN(secondArgNumber) ? folders.slice(secondArgNumber-1, secondArgNumber) : folders.reverse().slice(0, 1);
+let folders_to_exec = folders;
+if (!isNaN(secondArgNumber))
+ folders_to_exec = folders.slice(secondArgNumber-1, secondArgNumber );
+else if (SECOND_ARG === "last") 
+  folders_to_exec = folders.reverse().slice(0, 1);
 
-const times = [["day  :\t"],["read:\t"], ["part1:\t"], ["part2:\t"],["total:\t"]];
-const totalPerf1 = performance.now()
+
+const times = [
+  ["day  :\t"],
+  ["read:\t"],
+  ["part1:\t"],
+  ["part2:\t"],
+  ["total:\t"],
+];
+
+const totalPerf1 = performance.now();
 folders_to_exec.forEach((folder) => {
   const { p1, p2 } = require(`./${folder}/puzzle.js`);
   console.log(`===== Excuting ${folder} =====`);
   const inputPath = `./${folder}/${txtFile}.txt`;
-  const ioT1 = performance.now()
+  const ioT1 = performance.now();
   const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
   const ioT2 = performance.now();
   const perfIO = durationFormat(ioT2 - ioT1);
@@ -29,14 +39,14 @@ folders_to_exec.forEach((folder) => {
   console.log(`Part 1:\t ${r1}`);
   const t2p1 = performance.now();
   const perfP1 = durationFormat(t2p1 - t1p1);
-  console.log("P1",perfP1);
+  console.log("P1", perfP1);
 
   const t1p2 = performance.now();
   const r2 = p2(inputstring, inputPath);
   console.log(`Part 2:\t ${r2}`);
   const t2p2 = performance.now();
   const perfP2 = durationFormat(t2p2 - t1p2);
-  console.log("P2:",perfP2);
+  console.log("P2:", perfP2);
 
   console.log();
   times[0].push(folder + " ");
@@ -50,9 +60,8 @@ times.forEach((time) => {
   console.log(time.join("\t | "));
 });
 
-console.log("===***==***==")
-console.log("totalTime for AoC-2022:",durationFormat(totalPerf2-totalPerf1))
-
+console.log("===***==***==");
+console.log("totalTime for AoC-2022:", durationFormat(totalPerf2 - totalPerf1));
 
 function durationFormat(ms) {
   const seconds = Math.floor(ms / 1000);

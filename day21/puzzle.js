@@ -77,13 +77,13 @@ const getReverseOp = (op) => {
   }
 };
 const getReverseValue = (monkeys, monkey, valueToBe) => {
-    console.log("======***======")
-  console.log(monkey, valueToBe);
+  //   console.log("======***======")
+  // console.log(monkey, valueToBe);
   if (monkey === "humn") return valueToBe;
   const monkeyObject = monkeys[monkey];
-  console.log(monkeyObject);
-  console.log(monkeys[monkeyObject.calc.first]);
-  console.log(monkeys[monkeyObject.calc.second]);
+  // console.log(monkeyObject);
+  // console.log(monkeys[monkeyObject.calc.first]);
+  // console.log(monkeys[monkeyObject.calc.second]);
   if (monkeys[monkeyObject.calc.first].me) {
     const op = getReverseOp(monkeyObject.calc.op);
     const value = monkeys[monkeyObject.calc.second].value;

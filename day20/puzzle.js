@@ -9,7 +9,6 @@ const prepareData = (inputString, inputPath) => {
 Part one
 */
 const p1 = (inputString, inputPath) => {
-  const placesToSum = [1000, 2000, 3000];
   const firstArray = prepareData(inputString, inputPath);
   let resultArray = [...firstArray];
 
@@ -33,13 +32,12 @@ const p1 = (inputString, inputPath) => {
     );
   });
 
+  const placesToSum = [1000, 2000, 3000];
   const indexOfZero = resultArray.findIndex(({ x }) => x === 0);
+return placesToSum.reduce((sum,place)=> sum + resultArray[(indexOfZero + place) % firstArray.length].x
+,0)
 
-  const one = resultArray[(indexOfZero + 1000) % firstArray.length];
-  const two = resultArray[(indexOfZero + 2000) % firstArray.length];
-  const three = resultArray[(indexOfZero + 3000) % firstArray.length];
 
-  return one.x + two.x + three.x;
 };
 
 /*
