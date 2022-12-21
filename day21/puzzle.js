@@ -103,9 +103,9 @@ Part two
 const p2 = (inputString, inputPath) => {
   const monkeys = prepareData(inputString, inputPath);
   const root = monkeys["root"];
-  const first = getValue(monkeys, root.calc.first, true);
-  const second = getValue(monkeys, root.calc.second, true);
-  //console.log({root,first,second})
+  getValue(monkeys, 'root', true);
+  const first = monkeys[root.calc.first]
+  const second = monkeys[root.calc.second]
 
   if (first.me) {
     return getReverseValue(monkeys, root.calc.first, second.value);
