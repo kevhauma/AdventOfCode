@@ -2,9 +2,8 @@ const fs = require("fs");
 
 const max = { red: 12, green: 13, blue: 14 };
 
-const prepareData = () => {
-  const input = fs.readFileSync("./input.txt", { encoding: "utf8" });
-  const lines = input
+const prepareData = (inputString) => {
+  const lines = inputString
     .split(/\r?\n/g)
     .filter(Boolean)
     .reduce((games, line) => {
@@ -71,8 +70,5 @@ const p2 = (inputString, inputPath) => {
     )
     .reduce((sum, value) => sum + value);
 };
-
-console.log(p1());
-console.log(p2());
 
 module.exports = { p1, p2 };

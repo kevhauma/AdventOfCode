@@ -2,11 +2,13 @@ const fs = require("fs");
 
 const FIRST_ARG = process.argv[2];
 const SECOND_ARG = process.argv[3];
-
+const year = process.argv[4] ||  (new Date()).getFullYear();
+console.log(year)
 const folders = fs
-  .readdirSync("./")
+  .readdirSync(`./${year}/`)
   .sort()
   .filter((f) => f.includes("day"));
+  
 const secondArgNumber = parseInt(SECOND_ARG);
 const txtFile = FIRST_ARG === "test" ? "test" : "input";
 let folders_to_exec = folders;
@@ -26,9 +28,9 @@ const times = [
 
 const totalPerf1 = performance.now();
 folders_to_exec.forEach((folder) => {
-  const { p1, p2 } = require(`./${folder}/puzzle.js`);
+  const { p1, p2 } = require(`./${year}/${folder}/puzzle.js`);
   console.log(`===== Excuting ${folder} =====`);
-  const inputPath = `./${folder}/${txtFile}.txt`;
+  const inputPath = `./${year}/${folder}/${txtFile}.txt`;
   const ioT1 = performance.now();
   const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
   const ioT2 = performance.now();
@@ -61,7 +63,7 @@ times.forEach((time) => {
 });
 
 console.log("===***==***==");
-console.log("totalTime for AoC-2022:", durationFormat(totalPerf2 - totalPerf1));
+console.log(`totalTime for AoC-${year}:`, durationFormat(totalPerf2 - totalPerf1));
 
 function durationFormat(ms) {
   const seconds = Math.floor(ms / 1000);

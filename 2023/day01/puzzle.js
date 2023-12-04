@@ -30,9 +30,8 @@ const replaceLetteredNumbers = (line) => {
   return copyLine;
 };
 
-const prepareData = (includeNumberWords) => {
-  const input = fs.readFileSync("./input.txt", { encoding: "utf8" });
-  const lines = input
+const prepareData = (includeNumberWords,inputString) => {
+  const lines = inputString
     .split(/\r?\n/g)
     .filter(Boolean)
     .map((line) => (includeNumberWords ? replaceLetteredNumbers(line) : line))
@@ -62,8 +61,5 @@ Part two
 const p2 = (inputString, inputPath) => {
   return prepareData(true, inputString, inputPath);
 };
-
-console.log(p1());
-console.log(p2());
 
 module.exports = { p1, p2 };

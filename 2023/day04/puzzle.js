@@ -1,8 +1,7 @@
 const fs = require("fs");
 
-const prepareData = () => {
-  const input = fs.readFileSync("./input.txt", { encoding: "utf8" });
-  const lines = input
+const prepareData = (inputString) => {
+  const lines = inputString
     .split(/\r?\n/g)
     .filter(Boolean)
     .map((line) => {
@@ -68,8 +67,5 @@ const p2 = (inputString, inputPath) => {
 
   return amountOfCopies;
 };
-
-console.log(p1());
-console.log(p2());
 
 module.exports = { p1, p2 };

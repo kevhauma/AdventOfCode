@@ -23,9 +23,8 @@ const isAdjecent = (coord1, coord2) =>
   matchCoord(coord2, getBottomLeft(coord1)) ||
   matchCoord(coord2, getBottomRight(coord1));
 
-const prepareData = () => {
-  const input = fs.readFileSync("./input.txt", { encoding: "utf8" });
-  const lines = input
+const prepareData = (inputString) => {
+  const lines = inputString
     .split(/\r?\n/g)
     .filter(Boolean)
     .reduce(
@@ -87,8 +86,5 @@ const p2 = (inputString, inputPath) => {
 
   return numbersNextToSymbols.reduce((sum, curr) => sum + curr);
 };
-
-console.log(p1());
-console.log(p2());
 
 module.exports = { p1, p2 };
