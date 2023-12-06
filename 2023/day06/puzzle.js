@@ -24,14 +24,12 @@ const prepareData = (isP2, inputString) => {
 const calculate = (data) => Object.entries(data)
 .map(([race, { time, distance }]) => {
   let won = 0;
+  
   Array.from({ length: time }).forEach((_, holdForMs) => {
-    let speed = 0;
-    let attemptDistance = 0;
-    Array.from({ length: time }).forEach((_, currentTimeStep) => {
-      if (currentTimeStep < holdForMs) speed += acceleration;
-      else attemptDistance += speed;
-    });
-
+    
+    const timeLeft = time - holdForMs
+    const attemptDistance = timeLeft * holdForMs
+    
     if (attemptDistance > distance) won += 1;
   });
 
@@ -43,7 +41,7 @@ const calculate = (data) => Object.entries(data)
 /*
 Part one
 */
-const acceleration = 1;
+
 const p1 = (inputString, inputPath) => {
   const data = prepareData(false, inputString, inputPath);
   return calculate(data)
