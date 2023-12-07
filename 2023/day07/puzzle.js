@@ -92,7 +92,7 @@ const prepareData = (inputString) => {
       const hand = cards.split("").reduce((group, card) => {
         if (!group[card]) group[card] = 1;
         else group[card] = group[card] + 1;
-        return { ...group };
+        return group;
       }, {});
       return { cards, hand, bid: parseInt(numbers) };
     });
