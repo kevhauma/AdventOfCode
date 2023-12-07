@@ -7,9 +7,12 @@ const RANKS = {
   ONE_PAIR: 2,
   HIGH_CARD: 1,
 };
-const cards = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
-const sortOnCards = (a, b) => {
+const cardsP1 = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
+const cardsP2 = ["J" ,"2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"];
+
+const sortOnCards = (a, b, isP2) => {
+  const cards = isP2 ? cardsP2 : cardsP1;
   return a.split("").reduce((result, current, index) => {
     const aScore = cards.indexOf(current);
     const bScore = cards.indexOf(b[index]);
@@ -20,7 +23,6 @@ const sortOnCards = (a, b) => {
 
 const getRank = (hand, isP2) => {
   const [maxCard, maxAmount] = Object.entries(hand)
-
     .filter(([card, amount]) => (isP2 ? card !== "J" : true))
     .reduce(
       ([maxCard, maxAmount], [card, amount]) =>
@@ -48,7 +50,7 @@ const getRank = (hand, isP2) => {
   let rank = RANKS.HIGH_CARD;
 
   //Five of a Kind
-  if (maxAmount + jokerCount === 5) {
+  if (maxAmount + jokerCount === 5 || !maxCard) {
     return { rank: RANKS.FIVE_OF_A_KIND };
   }
   //Four of a Kind
@@ -108,7 +110,7 @@ const countScore = (plays, isP2) => {
     }))
     .toSorted((a, b) =>
       //if rank is same, sort on highestCard
-      a.rank - b.rank !== 0 ? a.rank - b.rank : sortOnCards(a.cards, b.cards)
+      a.rank - b.rank !== 0 ? a.rank - b.rank : sortOnCards(a.cards, b.cards, isP2)
     );
 
   const score = sortedPlays.reduce(
