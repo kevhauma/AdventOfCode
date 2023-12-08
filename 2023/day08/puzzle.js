@@ -13,37 +13,34 @@ const prepareData = (inputString) => {
   return { instructions: instructions.split(""), dictionary };
 };
 
+const getNextStep = (currentStep, stepsAmount, instructions, dictionary) => {
+  const { left, right } = dictionary[currentStep];
 
+  const leftOrRight = instructions[stepsAmount % instructions.length];
 
-const getNextStep = (currentStep,stepsAmount,instructions,dictionary) => {
-  const {left,right} = dictionary[currentStep]
+  const nextStep = leftOrRight === "R" ? right : left;
 
-  const leftOrRight = instructions[stepsAmount % instructions.length]
-  
-  const nextStep = leftOrRight === "R" ? right : left
-  
-  return nextStep
-}
+  return nextStep;
+};
 
 /*
 Part one
 */
 
 const p1 = (inputString, inputPath) => {
-  return 0
-  const {instructions,dictionary} = prepareData(inputString, inputPath);
+  const { instructions, dictionary } = prepareData(inputString, inputPath);
   let stepsAmount = 0;
   let currentStep = "AAA";
   do {
-    const {left,right} = dictionary[currentStep]
+    const { left, right } = dictionary[currentStep];
 
-    const leftOrRight = instructions[stepsAmount % instructions.length]
-    
-    const nextStep = leftOrRight === "R" ? right : left
-    
-    currentStep = nextStep
-   
-    stepsAmount += 1
+    const leftOrRight = instructions[stepsAmount % instructions.length];
+
+    const nextStep = leftOrRight === "R" ? right : left;
+
+    currentStep = nextStep;
+
+    stepsAmount += 1;
   } while (currentStep !== "ZZZ");
   return stepsAmount;
 };
@@ -52,19 +49,29 @@ const p1 = (inputString, inputPath) => {
 Part two
 */
 const p2 = (inputString, inputPath) => {
-  const {instructions,dictionary} = prepareData(inputString, inputPath);
-  const allStepsEndingWithA = Object.keys(dictionary).filter((key)=>key.endsWith("A"))
-console.log(allStepsEndingWithA)
-  let stepsAmount = 0;
-  let currentSteps = allStepsEndingWithA
-  do {
-    
-    currentSteps = currentSteps.map(step=> getNextStep(step,stepsAmount,instructions,dictionary))
-   
-    stepsAmount += 1
-  } while (!currentSteps.every(step=>step.endsWith("Z")));
-  return stepsAmount;
-};
+  const { instructions, dictionary } = prepareData(inputString, inputPath);
+  const allStepsEndingWithA = Object.keys(dictionary).filter((key) =>
+    key.endsWith("A")
+  );
+  
+  const stepsToZ = allStepsEndingWithA.map((start) => {
+    let stepsAmount = 0;
+    let currentStep = start;
+    do {
+      const { left, right } = dictionary[currentStep];
 
+      const leftOrRight = instructions[stepsAmount % instructions.length];
+
+      const nextStep = leftOrRight === "R" ? right : left;
+
+      currentStep = nextStep;
+
+      stepsAmount += 1;
+    } while (!currentStep.endsWith("Z"));
+    return stepsAmount
+  });
+
+  return `${stepsToZ.join(" ")} https://www.calculatorsoup.com/calculators/math/lcm.php`
+};
 
 module.exports = { p1, p2 };
