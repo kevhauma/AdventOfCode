@@ -3,7 +3,7 @@ const fs = require("fs");
 const FIRST_ARG = process.argv[2];
 const SECOND_ARG = process.argv[3];
 const year = process.argv[4] ||  (new Date()).getFullYear();
-console.log(year)
+
 const folders = fs
   .readdirSync(`./${year}/`)
   .sort()
