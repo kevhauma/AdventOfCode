@@ -22,31 +22,35 @@ const calculateHistories = (data) => {
   return inbetweenResult;
 };
 
+const getResult = (data, isP2) => {
+  return data
+    .reduce((total, currentData) => {
+      const result = [...total];
+      const histories = calculateHistories(currentData);
+
+      //extrapolate to the end
+      histories.reverse();
+      //add 0 entry to 'last' step
+      histories[0].push(0);
+
+      const exprapolated = histories
+        .map((step) => (isP2 ? step[0] : step.reverse()[0]))
+        .reduce((total, number) => (isP2 ? number - total : total + number), 0);
+
+      result.push(exprapolated);
+
+      return result;
+    }, [])
+    .reduce((sum, total) => sum + total);
+};
+
 /*
 Part one
 */
 
 const p1 = (inputString, inputPath) => {
   const data = prepareData(inputString, inputPath);
-
-  const calculated = data.reduce((total, currentData) => {
-    const result = [...total];
-    const histories = calculateHistories(currentData);
-
-    //extrapolate to the end
-    histories.reverse();
-    //add 0 entry to 'last' step
-    histories[0].push(0);
-
-    const exprapolated = histories
-      .map((step) => step.reverse()[0])
-      .reduce((total, lastNumber) => total + lastNumber, 0);
-
-    result.push(exprapolated);
-
-    return result;
-  }, []);
-  return calculated.reduce((sum, total) => sum + total);
+  return getResult(data);
 };
 
 /*
@@ -54,26 +58,7 @@ Part two
 */
 const p2 = (inputString, inputPath) => {
   const data = prepareData(inputString, inputPath);
-
-  const calculated = data.reduce((total, currentData) => {
-    const result = [...total];
-    const histories = calculateHistories(currentData);
-
-    //extrapolate to the end
-    histories.reverse();
-    //add 0 entry to 'last' step
-    histories[0].shift(0);
-
-    const exprapolated = histories
-      .map((step) => step[0])
-      .reduce((total, firstNumber) => firstNumber - total, 0);
-
-    result.push(exprapolated);
-
-    return result;
-  }, []);
-  
-  return calculated.reduce((sum, total) => sum + total);
+  return getResult(data, true);
 };
 
 module.exports = { p1, p2 };
