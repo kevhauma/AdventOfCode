@@ -1,42 +1,50 @@
-const prepareData = (inputString) => {
-  //split and expand horizontally
-  const horizontalExpanded = inputString
+const prepareData = (inputString, expandBy) => {
+  const horizontalIndexes = [];
+  const verticalIndexes = [];
+
+  //split and set vertical indexes
+  const universe = inputString
     .split(/\r?\n/g)
     .filter(Boolean)
-    .flatMap((line) => {
+    .map((line) => {
       const split = line.split("");
-      return split.every((symbol) => symbol === ".") ? [split, split] : [split];
+      const lastOffset = (verticalIndexes[verticalIndexes.length - 1] || 0) + 1;
+      verticalIndexes.push(
+        split.every((symbol) => symbol === ".")
+          ? lastOffset + expandBy - 1
+          : lastOffset
+      );
+      return split;
     });
 
-  //rotate array to expand vertically
-  const rotated = Array.from({ length: horizontalExpanded[0].length }).map(
-    (_) => Array.from({ length: horizontalExpanded.length })
+  //rotate universe
+  const rotatedUniverse = Array.from({ length: universe[0].length }).map((_) =>
+    Array.from({ length: universe.length })
   );
-  horizontalExpanded.forEach((line, y) => {
+  universe.forEach((line, y) => {
     line.forEach((cell, x) => {
-      rotated[x][y] = cell;
+      rotatedUniverse[x][y] = cell;
     });
   });
-  //expand vertically (rotated horizontal)
-  const verticalExpanded = rotated.flatMap((line) =>
-    line.every((symbol) => symbol === ".") ? [line, line] : [line]
-  );
+  //expand horizontally (rotated)
+  rotatedUniverse.forEach((line) => {
+    const lastOffset =
+      (horizontalIndexes[horizontalIndexes.length - 1] || 0) + 1;
+    horizontalIndexes.push(
+      line.every((symbol) => symbol === ".")
+        ? lastOffset + expandBy - 1
+        : lastOffset
+    );
+  });
 
-  //rotate back
-  const universe = Array.from({ length: verticalExpanded[0].length }).map((_) =>
-    Array.from({ length: verticalExpanded.length })
-  );
-  verticalExpanded.forEach((line, y) => {
-    line.forEach((cell, x) => {
-      universe[x][y] = cell;
-    });
-  });
   //map galaxies to coordinates
   return universe.flatMap((line, y) =>
     line
       .map((letter, x) => {
         if (letter === "#") {
-          return { x, y, id: `${x},${y}` };
+          const offsetX = horizontalIndexes[x];
+          const offsetY = verticalIndexes[y];
+          return { x: offsetX, y: offsetY, id: `${x},${y}` };
         }
       })
       .filter(Boolean)
@@ -70,7 +78,8 @@ const p1 = (inputString) => {
 Part two
 */
 const p2 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+  const galaxies = prepareData(inputString, 1000000);
+  return calculate(galaxies);
 };
 
 module.exports = { p1, p2 };
