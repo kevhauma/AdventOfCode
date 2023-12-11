@@ -152,10 +152,11 @@ const p1 = (inputString, inputPath) => {
     line1 = getEnteredPipe(neighbour1,getReverseDirection(nextDirection1))
     line2 = getEnteredPipe(neighbour2,getReverseDirection(nextDirection2))
     
-   // vizualise(pipes)
+   //vizualise(pipes)
 
     distance += 1
   } while (line1.x !== line2.x || line1.y !== line2.y);
+  vizualise(pipes)
   return (distance)
 };
 
