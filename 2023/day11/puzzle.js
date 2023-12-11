@@ -35,31 +35,35 @@ const prepareData = (inputString) => {
   return universe.flatMap((line, y) =>
     line
       .map((letter, x) => {
-        if (letter === "#") return { x, y, id: parseInt(`${x}${y}`) };
+        if (letter === "#") {
+          return { x, y, id: `${x},${y}` };
+        }
       })
       .filter(Boolean)
   );
+};
+
+const calculate = (galaxies) => {
+  const routes = {};
+  galaxies.forEach((galaxy) => {
+    galaxies.forEach((g) => {
+      if (g.id === galaxy.id) return;
+      const combinedId = [g.id, galaxy.id].toSorted().join("|");
+      if (routes[combinedId] !== undefined) return;
+
+      routes[combinedId] = Math.abs(g.y - galaxy.y) + Math.abs(g.x - galaxy.x);
+    });
+  });
+  return Object.values(routes).reduce((sum, cur) => sum + cur);
 };
 
 /*
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const galaxies = prepareData(inputString, inputPath);
-const routes = {}
-galaxies.forEach(galaxy=>{
-  galaxies.forEach(g=>{
-    if(g.id === galaxy.id) return
-    const combinedId = [g.id, galaxy.id].toSorted((a,b)=>a-b).join("|");
-    if(routes[combinedId]!==undefined) return
-    
-    routes[combinedId] =  Math.abs(g.y - galaxy.y) + Math.abs(g.x-galaxy.x)
-
-  })
-})
-
-  return Object.values(routes).reduce((sum,cur)=>sum+cur)
+const p1 = (inputString) => {
+  const galaxies = prepareData(inputString, 2);
+  return calculate(galaxies);
 };
 
 /*
