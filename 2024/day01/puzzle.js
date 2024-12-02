@@ -32,9 +32,16 @@ Part two
 */
 const p2 = (inputString, inputPath) => {
   const [leftList, rightList] = prepareData(inputString, inputPath);
-  const similarities = leftList.map(
-    (left) => left * rightList.filter((right) => right === left).length
-  );
+
+  const rightDict = rightList.reduce((dict, curr) => {
+    if (!dict[curr]) {
+      dict[curr] = 1;
+    } else dict[curr] = dict[curr] + 1;
+
+    return dict;
+  }, []);
+
+  const similarities = leftList.map((left) => left * (rightDict[left] || 0));
   return similarities.reduce((sum, curr) => sum + curr);
 };
 
