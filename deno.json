@@ -1,9 +1,14 @@
 {
   "tasks": {
-    "dev": "deno run --watch index.js"
+    "dev": "deno run --watch index.js",
+    "test": "deno --allow-all ./index.js test",
+    "real": "deno --allow-all ./index.js real",
+    "bench": "deno bench --allow-read ./performance.ts",
+    "scaffold": "deno --allow-all ./scripts/scaffold.ts"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/parse-args": "jsr:@std/cli/parse-args"
   },
   "nodeModulesDir": "auto"
 }
