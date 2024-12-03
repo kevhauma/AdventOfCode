@@ -1,4 +1,4 @@
-const prepareData = (inputString) => {
+const prepareData = (inputString: string) => {
   const lines = inputString.split(/\r?\n/g).filter(Boolean);
 
   return lines.reduce(
@@ -8,7 +8,7 @@ const prepareData = (inputString) => {
       lists[1].push(Number(second));
       return lists;
     },
-    [[], []]
+    [[], []] as Array<Array<number>>
   );
 };
 
@@ -16,8 +16,8 @@ const prepareData = (inputString) => {
 Part one
 */
 
-export const p1 = (inputString, inputPath) => {
-  const [list1, list2] = prepareData(inputString, inputPath);
+export const p1 = (inputString: string) => {
+  const [list1, list2] = prepareData(inputString);
   list1.sort((a, b) => a - b);
   list2.sort((a, b) => a - b);
 
@@ -29,16 +29,13 @@ export const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-export const p2 = (inputString, inputPath) => {
-  const [leftList, rightList] = prepareData(inputString, inputPath);
+export const p2 = (inputString: string) => {
+  const [leftList, rightList] = prepareData(inputString);
 
   const rightDict = rightList.reduce((dict, curr) => {
-    if (!dict[curr]) {
-      dict[curr] = 1;
-    } else dict[curr] = dict[curr] + 1;
-
+    dict[curr] = (dict[curr] || 0) + 1;
     return dict;
-  }, []);
+  }, {} as Record<number, number>);
 
   return leftList.reduce((sum, left) => sum + left * (rightDict[left] || 0));
 };

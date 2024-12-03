@@ -1,4 +1,4 @@
-const prepareData = (inputString) => {
+const prepareData = (inputString: string) => {
   const lines = inputString.split(/\r?\n/g).filter(Boolean);
 
   return lines.map((line) => line.split(/\s+/g).map((num) => parseInt(num)));
@@ -8,8 +8,8 @@ const prepareData = (inputString) => {
 Part one
 */
 
-export const p1 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p1 = (inputString: string) => {
+  const data = prepareData(inputString);
   const reportResults = data
     .map((report) => {
       return report.reduce(
@@ -40,7 +40,7 @@ export const p1 = (inputString, inputPath) => {
           //is not safe
           return { isSafe: false };
         },
-        { isSafe: true }
+        { isSafe: true } as { isSafe: boolean; isDecreasing?: boolean }
       );
     })
     .filter((result) => result.isSafe);
@@ -50,6 +50,6 @@ export const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-export const p2 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p2 = (inputString: string) => {
+  const data = prepareData(inputString);
 };

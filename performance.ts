@@ -2,7 +2,7 @@ import fs from "node:fs";
 
 const inputPath = `./2024/day01/input.txt`;
 
-const { p1, p2 } = await import(`./2024/day01/puzzle1.js`);
+const { p1, p2 } = await import(`./2024/day03/puzzle.ts`);
 
 const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
 
