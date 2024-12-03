@@ -1,4 +1,13 @@
-const prepareData = (inputString: string) => {
+const prepareDataP1 = (inputString: string) => {
+  const muls = inputString.match(/mul\([0-9]+,[0-9]+\)/g);
+
+  const pairs = muls?.map((mul) =>
+    mul[0].split(",").map((part) => Number(part.replace(/[^0-9]+/gi, "")))
+  );
+
+  return pairs;
+};
+const prepareDataP2 = (inputString: string) => {
   const muls = inputString.matchAll(/mul\([0-9]+,[0-9]+\)/g);
 
   const donts = inputString
@@ -28,18 +37,15 @@ Part one
 */
 
 export const p1 = (inputString: string) => {
-  const data = prepareData(inputString);
-  return data?.pairs.reduce(
-    (sum, curr) => sum + (curr.pair[0] || 0) * (curr.pair[1] || 0),
-    0
-  );
+  const data = prepareDataP1(inputString);
+  return data?.reduce((sum, curr) => sum + (curr[0] || 0) * (curr[1] || 0), 0);
 };
 
 /*
 Part two
 */
 export const p2 = (inputString: string) => {
-  const data = prepareData(inputString);
+  const data = prepareDataP2(inputString);
 
   return data?.pairs.reduce((sum, curr) => {
     const do_index = data.dos.findLast((doIndex) => doIndex < curr.index);
