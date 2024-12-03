@@ -8,7 +8,7 @@ const prepareData = (inputString) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
+export const p1 = (inputString, inputPath) => {
   const data = prepareData(inputString, inputPath);
   const reportResults = data
     .map((report) => {
@@ -50,8 +50,6 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
+export const p2 = (inputString, inputPath) => {
   const data = prepareData(inputString, inputPath);
 };
-
-module.exports = { p1, p2 };

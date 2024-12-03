@@ -1,22 +1,20 @@
-const fs = require("fs");
+import fs from "node:fs";
 
 const FIRST_ARG = process.argv[2];
 const SECOND_ARG = process.argv[3];
-const year = process.argv[4] ||  (new Date()).getFullYear();
+const year = process.argv[4] || new Date().getFullYear();
 
 const folders = fs
   .readdirSync(`./${year}/`)
   .sort()
   .filter((f) => f.includes("day"));
-  
+
 const secondArgNumber = parseInt(SECOND_ARG);
 const txtFile = FIRST_ARG === "test" ? "test" : "input";
 let folders_to_exec = folders;
 if (!isNaN(secondArgNumber))
- folders_to_exec = folders.slice(secondArgNumber-1, secondArgNumber );
-else if (SECOND_ARG === "last") 
-  folders_to_exec = folders.reverse().slice(0, 1);
-
+  folders_to_exec = folders.slice(secondArgNumber - 1, secondArgNumber);
+else if (SECOND_ARG === "last") folders_to_exec = folders.reverse().slice(0, 1);
 
 const times = [
   ["day  :\t"],
@@ -27,8 +25,8 @@ const times = [
 ];
 
 const totalPerf1 = performance.now();
-folders_to_exec.forEach((folder) => {
-  const { p1, p2 } = require(`./${year}/${folder}/puzzle.js`);
+folders_to_exec.forEach(async (folder) => {
+  const { p1, p2 } = await import(`./${year}/${folder}/puzzle.ts`);
   console.log(`===== Excuting ${folder} =====`);
   const inputPath = `./${year}/${folder}/${txtFile}.txt`;
   const ioT1 = performance.now();
@@ -63,7 +61,10 @@ times.forEach((time) => {
 });
 
 console.log("===***==***==");
-console.log(`totalTime for AoC-${year}:`, durationFormat(totalPerf2 - totalPerf1));
+console.log(
+  `totalTime for AoC-${year}:`,
+  durationFormat(totalPerf2 - totalPerf1)
+);
 
 function durationFormat(ms) {
   const seconds = Math.floor(ms / 1000);

@@ -1,13 +1,14 @@
 {
-    "name": "advent-of-code-2022",
+    "name": "advent-of-code",
     "version": "0.0.1",
     "license": "MIT",
     "scripts": {
-        "test": "node  ./index.js test",
-        "real": "node  ./index.js real"
+        "test": "deno --allow-all ./index.js test",
+        "real": "deno --allow-all ./index.js real",
+        "bench": "deno bench --allow-read ./performance.ts"
     },
-    "description": "Javascript solutions for Aoc22",
+    "description": "Javascript solutions for AdventOfCode years",
     "main": "index.js",
-    "repository": "https://github.com/kevhauma/AdventOfCode2022.git",
+    "repository": "https://github.com/kevhauma/AdventOfCode.git",
     "private": false
 }
