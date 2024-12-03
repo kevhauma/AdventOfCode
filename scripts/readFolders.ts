@@ -13,7 +13,7 @@ export const readFolders = () => {
 
   const folders = fs
     .readdirSync(`./${year}/`)
-    .sort()
+    .toSorted()
     .filter((f) => f.includes("day"));
 
   const txtFile = isTest ? "test" : "input";
