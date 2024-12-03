@@ -1,20 +1,9 @@
 import fs from "node:fs";
 
-const FIRST_ARG = process.argv[2];
-const SECOND_ARG = process.argv[3];
-const year = process.argv[4] || new Date().getFullYear();
+import { tryImport } from "./scripts/tryImport.ts";
+import { readFolders } from "./scripts/readFolders.ts";
 
-const folders = fs
-  .readdirSync(`./${year}/`)
-  .sort()
-  .filter((f) => f.includes("day"));
-
-const secondArgNumber = parseInt(SECOND_ARG);
-const txtFile = FIRST_ARG === "test" ? "test" : "input";
-let folders_to_exec = folders;
-if (!isNaN(secondArgNumber))
-  folders_to_exec = folders.slice(secondArgNumber - 1, secondArgNumber);
-else if (SECOND_ARG === "last") folders_to_exec = folders.reverse().slice(0, 1);
+const { txtFile, folders, year } = readFolders();
 
 const times = [
   ["day  :\t"],
@@ -25,9 +14,10 @@ const times = [
 ];
 
 const totalPerf1 = performance.now();
-folders_to_exec.forEach(async (folder) => {
-  const { p1, p2 } = await import(`./${year}/${folder}/puzzle.ts`);
-  console.log(`===== Excuting ${folder} =====`);
+for (const folder of folders) {
+  const { p1, p2 } = await tryImport(`${year}/${folder}/puzzle`);
+
+  console.log(`===== Excuting ${year}-${folder} =====`);
   const inputPath = `./${year}/${folder}/${txtFile}.txt`;
   const ioT1 = performance.now();
   const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
@@ -54,7 +44,8 @@ folders_to_exec.forEach(async (folder) => {
   times[2].push(perfP1);
   times[3].push(perfP2);
   times[4].push(durationFormat(t2p2 - ioT1));
-});
+}
+
 const totalPerf2 = performance.now();
 times.forEach((time) => {
   console.log(time.join("\t | "));
@@ -66,7 +57,7 @@ console.log(
   durationFormat(totalPerf2 - totalPerf1)
 );
 
-function durationFormat(ms) {
+function durationFormat(ms: number) {
   const seconds = Math.floor(ms / 1000);
   const remainingMillis = ms % 1000;
   const minutes = Math.floor(seconds / 60);

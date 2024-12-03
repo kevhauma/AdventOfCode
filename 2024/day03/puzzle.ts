@@ -20,5 +20,5 @@ export const p1 = (inputString: string) => {
 Part two
 */
 export const p2 = (inputString: string) => {
-  const data = prepareData(inputString);
+  // const data = prepareData(inputString);
 };

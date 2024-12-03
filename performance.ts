@@ -1,28 +1,34 @@
 import fs from "node:fs";
 
-const inputPath = `./2024/day01/input.txt`;
+import { tryImport } from "./scripts/tryImport.ts";
+import { readFolders } from "./scripts/readFolders.ts";
 
-const { p1, p2 } = await import(`./2024/day03/puzzle.ts`);
+const { txtFile, folders, year } = readFolders();
 
-const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
+for (const folder of folders) {
+  const { p1, p2 } = await tryImport(`${year}/${folder}/puzzle`);
 
-Deno.bench({
-  name: "Read",
-  fn: () => {
-    fs.readFileSync(inputPath, { encoding: "utf8" });
-  },
-});
+  const inputPath = `./${year}/${folder}/${txtFile}.txt`;
+  const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
 
-Deno.bench({
-  name: "part-1",
-  fn: () => {
-    p1(inputstring);
-  },
-});
+  Deno.bench({
+    name: `${year}/${folder}: Read File`,
+    fn: () => {
+      fs.readFileSync(inputPath, { encoding: "utf8" });
+    },
+  });
 
-Deno.bench({
-  name: "part-2",
-  fn: () => {
-    p2(inputstring);
-  },
-});
+  Deno.bench({
+    name: `${year}/${folder}: Part 1`,
+    fn: () => {
+      p1(inputstring);
+    },
+  });
+
+  Deno.bench({
+    name: `${year}/${folder}: Part 2`,
+    fn: () => {
+      p2(inputstring);
+    },
+  });
+}
