@@ -6,7 +6,7 @@ const visualize = (map, pos) => {
   });
 };
 
-const prepareData = (inputString, inputPath) => {
+const prepareData = (inputString) => {
   const map = inputString
     .trimEnd()
     .split(/\r?\n/g)
@@ -86,8 +86,8 @@ const isPosWall = (map, x, y) => {
 /*
 Part one
 */
-const p1 = (inputString, inputPath) => {
-  const { map, instructions } = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const { map, instructions } = prepareData(inputString);
 
   let cDir = M.R;
   const startingX = findFirstInRow(map, 0);
@@ -157,8 +157,6 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
 };
-
-module.exports = { p1, p2 };

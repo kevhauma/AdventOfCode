@@ -39,8 +39,8 @@ const prepareData = (inputString) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const { seeds, maps } = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const { seeds, maps } = prepareData(inputString);
 
   let mappedSeeds = seeds;
   let from = "seed";
@@ -71,8 +71,8 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const { seeds, maps } = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const { seeds, maps } = prepareData(inputString);
 
   let seedRanges = [];
 
@@ -100,7 +100,7 @@ const p2 = (inputString, inputPath) => {
           //start of defintion is after end of seed range
           if (seedRange.start > defSourceEnd || seedRange.end < def.sourceStart)
             return null;
-          
+
           //seed range fully contained in definition
           if (
             seedRange.start >= def.sourceStart &&
@@ -112,7 +112,7 @@ const p2 = (inputString, inputPath) => {
             return { start, end };
           }
 
-          const tempNewRange = []
+          const tempNewRange = [];
 
           //seed range extends before definition
           if (
@@ -144,24 +144,20 @@ const p2 = (inputString, inputPath) => {
             };
             //if tempNewRange is filled in by previous check, don't add the inPart (again)
             //this means that seedRange extends before and after the defintion range
-            if(tempNewRange.length === 0)
-              tempNewRange.push(inPart)
-            tempNewRange.push(afterPart)
-            
+            if (tempNewRange.length === 0) tempNewRange.push(inPart);
+            tempNewRange.push(afterPart);
           }
-          return tempNewRange
+          return tempNewRange;
         })
         .filter(Boolean);
-      
+
       return newRanges.length ? newRanges : seedRange;
     });
 
     from = to;
   } while (from);
-  
+
   const lowestLocation = Math.min(...seedRanges.map((sae) => sae.start));
 
   return lowestLocation;
 };
-
-module.exports = { p1, p2 };

@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const getOneAbove = ({ x, y }) => ({ x, y: y - 1 });
 const getOneBelow = ({ x, y }) => ({ x, y: y + 1 });
 const getOneLeft = ({ x, y }) => ({ x: x - 1, y });
@@ -56,13 +54,15 @@ const prepareData = (inputString) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const { numbers, symbols } = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const { numbers, symbols } = prepareData(inputString);
   return symbols
     .flatMap((symbol) =>
-      numbers.filter((number) =>
-        number.coords.some((coord) => isAdjecent(symbol, coord))
-      ).map(number=>number.number)
+      numbers
+        .filter((number) =>
+          number.coords.some((coord) => isAdjecent(symbol, coord))
+        )
+        .map((number) => number.number)
     )
     .reduce((sum, curr) => sum + curr);
 };
@@ -70,8 +70,8 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const { numbers, symbols } = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const { numbers, symbols } = prepareData(inputString);
   const numbersNextToSymbols = symbols
     .flatMap((symbol) => {
       const numbersNextToSymbol = numbers.filter((number) =>
@@ -86,5 +86,3 @@ const p2 = (inputString, inputPath) => {
 
   return numbersNextToSymbols.reduce((sum, curr) => sum + curr);
 };
-
-module.exports = { p1, p2 };

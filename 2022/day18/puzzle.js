@@ -1,4 +1,3 @@
-const fs = require("fs");
 //getCoordString
 const gcs = (x, y, z) => `${x},${y},${z}`;
 
@@ -9,7 +8,7 @@ let minY = Infinity;
 let maxZ = -Infinity;
 let minZ = Infinity;
 
-const prepareData = (inputString, inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n/g)
@@ -28,7 +27,7 @@ const getNeighbourStrings = (drop, part1) => {
   return neighbouringDroplets.filter(Boolean);
 };
 
-const checkSideTouching = (source, target,part1) => {
+const checkSideTouching = (source, target, part1) => {
   return Object.keys(source).reduce((amount, drop) => {
     const neighbouringDroplets = getNeighbourStrings(drop, true);
     const amountOfNonNeighbours = neighbouringDroplets.filter((xyz) =>
@@ -41,9 +40,9 @@ const checkSideTouching = (source, target,part1) => {
 /*
 Part one
 */
-const p1 = (inputString, inputPath) => {
-  const droplets = prepareData(inputString, inputPath);
-  return checkSideTouching(droplets, droplets,true);
+export const p1 = (inputString) => {
+  const droplets = prepareData(inputString);
+  return checkSideTouching(droplets, droplets, true);
 };
 
 //fill up outer space, check which droplet it touches
@@ -65,8 +64,8 @@ const fillOutSide = (currectSpace, finalSpace, visitedSpaces, droplets) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const droplets = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const droplets = prepareData(inputString);
 
   Object.keys(droplets).forEach((key) => {
     const [x, y, z] = key.split(",").map((i) => parseInt(i));
@@ -77,7 +76,7 @@ const p2 = (inputString, inputPath) => {
     if (z > maxZ) maxZ = z;
     if (z < minZ) minZ = z;
   });
-console.log((maxX+1-minX)*(maxY+1-minY)*(maxZ+1-minZ))
+  console.log((maxX + 1 - minX) * (maxY + 1 - minY) * (maxZ + 1 - minZ));
   const visitedSpaces = {};
   let currectSpace = gcs(minX, minY, minZ);
   let finalSpace = gcs(maxX, maxY, maxZ);
@@ -87,5 +86,3 @@ console.log((maxX+1-minX)*(maxY+1-minY)*(maxZ+1-minZ))
 
   return checkSideTouching(droplets, visitedSpaces);
 };
-
-module.exports = { p1, p2 };

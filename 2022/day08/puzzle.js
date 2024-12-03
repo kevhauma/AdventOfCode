@@ -1,6 +1,4 @@
-const fs = require("fs");
-
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n/g)
@@ -57,8 +55,8 @@ const isVisibleFromBottom = (...p) =>
     (_d, _x, _y, _i) => _d[_i][_x]
   );
 
-const p1 = (inputString,inputPath) =>
-  prepareData(inputString,inputPath).reduce(
+export const p1 = (inputString) =>
+  prepareData(inputString).reduce(
     (count, _, y, array) =>
       count +
       array[y].filter(
@@ -105,8 +103,8 @@ const treesVisibleOnTop = (...params) =>
 const treesVisibleOnBottom = (...params) =>
   countVisibleTrees(...params, params[2] + 1, false, visibleBottomCheck);
 
-const p2 = (inputString,inputPath) =>
-  prepareData(inputString,inputPath).reduce((max, _, y, array) => {
+export const p2 = (inputString) =>
+  prepareData(inputString).reduce((max, _, y, array) => {
     const counts = array[y].map(
       (_, x) =>
         treesVisibleOnTop(array, x, y) *
@@ -118,5 +116,3 @@ const p2 = (inputString,inputPath) =>
     let maxInRow = Math.max(...counts);
     return maxInRow > max ? maxInRow : max;
   }, 0);
-
-module.exports = { p1, p2 };

@@ -28,7 +28,7 @@ function findTree(trees, coord) {
 
 // PART ONE
 // ============================================================================================
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let map = convertData(inputString);
 
   const slope = { x: 3, y: 1 };
@@ -51,7 +51,7 @@ const p1 = (inputString) => {
 
 // PART TWO
 // ============================================================================================
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let map = convertData(inputString);
 
   const slopes = [
@@ -85,5 +85,3 @@ const p2 = (inputString) => {
 
   return result;
 };
-
-module.exports = { p1, p2 };

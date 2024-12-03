@@ -49,7 +49,7 @@ function findContent(bags, mutation, color) {
 
 // PART ONE
 // ============================================================================================
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let bags = convertData(inputString);
 
   let shinyHoldingBags = findContent(bags, "shiny", "gold");
@@ -104,7 +104,7 @@ function recursiveBagFinding(bags, bag) {
   return contentCount;
 }
 
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let bags = convertData(inputString);
   let shinyBag = { mutation: "shiny", color: "gold" };
 
@@ -112,5 +112,3 @@ const p2 = (inputString) => {
 
   return result;
 };
-
-module.exports = { p1, p2 };

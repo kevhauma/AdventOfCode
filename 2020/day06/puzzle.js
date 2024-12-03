@@ -17,7 +17,7 @@ function convertDataPartOne(data) {
 }
 // PART ONE
 // ============================================================================================
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let entries = convertDataPartOne(inputString);
 
   let answerSets = [];
@@ -52,7 +52,7 @@ function convertDataPartTwo(data) {
   return entries;
 }
 
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let entries = convertDataPartTwo(inputString);
 
   let totalCount = 0;
@@ -85,5 +85,3 @@ const p2 = (inputString) => {
 
   return totalCount;
 };
-
-module.exports = { p1, p2 };

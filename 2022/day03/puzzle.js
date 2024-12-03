@@ -1,9 +1,7 @@
-const fs = require("fs");
-
 const priorities =
   "0abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-const prepareData = (inputString,inputPath) =>
+const prepareData = (inputString) =>
   inputString
     .trim()
     .split(/\r?\n/g)
@@ -13,7 +11,8 @@ const prepareData = (inputString,inputPath) =>
 Part one
 */
 
-const p1 = (inputString,inputPath) => prepareData(inputString,inputPath)
+export const p1 = (inputString) =>
+  prepareData(inputString)
     .map((item) => [
       item.slice(0, item.length / 2),
       item.slice(item.length / 2, item.length),
@@ -27,11 +26,11 @@ const p1 = (inputString,inputPath) => prepareData(inputString,inputPath)
     .filter(Boolean)
     .reduce((sum, item) => sum + priorities.indexOf(item[0]), 0);
 
-
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => prepareData(inputString,inputPath)
+export const p2 = (inputString) =>
+  prepareData(inputString)
     .map((_, index, data) => (index % 3 ? null : data.slice(index, index + 3)))
     .filter(Boolean)
     .map((bags) =>
@@ -44,5 +43,3 @@ const p2 = (inputString,inputPath) => prepareData(inputString,inputPath)
     .map((sharedItems) => sharedItems[0])
     .filter(Boolean)
     .reduce((sum, item) => sum + priorities.indexOf(item[0]), 0);
-
-module.exports = { p1, p2 };

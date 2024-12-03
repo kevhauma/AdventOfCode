@@ -1,4 +1,4 @@
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let input = inputString.split("\n").filter(Boolean);
 
   let rates = [];
@@ -39,7 +39,7 @@ function filterByBitCriteria(array, index, decider) {
   });
   return leftovers;
 }
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let input = inputString.split("\n").filter(Boolean);
 
   let gens = [...input];
@@ -58,5 +58,3 @@ const p2 = (inputString) => {
 
   return parseInt(gens[0], 2) * parseInt(scrubs[0], 2);
 };
-
-module.exports = { p1, p2 };

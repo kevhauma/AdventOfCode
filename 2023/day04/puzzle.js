@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const prepareData = (inputString) => {
   const lines = inputString
     .split(/\r?\n/g)
@@ -24,8 +22,8 @@ const prepareData = (inputString) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const data = prepareData(inputString);
   return data.reduce((total, card) => {
     const winning = card.winningNumbers.filter((win) =>
       card.myNumbers.includes(win)
@@ -37,8 +35,8 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
   const cardResults = data.map((card) => {
     const winning = card.winningNumbers.filter((win) =>
       card.myNumbers.includes(win)
@@ -49,12 +47,11 @@ const p2 = (inputString, inputPath) => {
     };
   });
 
-  
   const results = {};
   cardResults.forEach((card) => {
     results[card.card] = 1;
   });
-  
+
   cardResults.forEach((card) => {
     Array.from({ length: card.amountOfMatching - 1 }).forEach((_, i) => {
       const resultIndex = card.card + (i + 1);
@@ -63,9 +60,9 @@ const p2 = (inputString, inputPath) => {
     });
   });
 
-  const amountOfCopies = Object.values(results).reduce((sum,value)=>sum+value)
+  const amountOfCopies = Object.values(results).reduce(
+    (sum, value) => sum + value
+  );
 
   return amountOfCopies;
 };
-
-module.exports = { p1, p2 };

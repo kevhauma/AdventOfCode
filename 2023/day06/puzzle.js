@@ -43,7 +43,7 @@ const calculate = (data) =>
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
+export const p1 = (inputString) => {
   const data = prepareData(false, inputString, inputPath);
   return calculate(data);
 };
@@ -51,9 +51,7 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
+export const p2 = (inputString) => {
   const data = prepareData(true, inputString, inputPath);
   return calculate(data);
 };
-
-module.exports = { p1, p2 };

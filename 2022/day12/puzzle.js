@@ -1,10 +1,8 @@
-const fs = require("fs");
-
 const findNode = (nodes, x, y) => {
   return nodes.find((n) => x === n.x && y === n.y);
 };
 
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n/g)
@@ -110,8 +108,8 @@ const findDistance = (nodes, start, end, part1) => {
 /*
 Part one
 */
-const p1 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p1 = (inputString) => {
+  const data = prepareData(inputString);
 
   let startNode = { letter: "a", x: -1, y: -1 };
   let endNode = { letter: "E", x: -1, y: -1 };
@@ -135,8 +133,8 @@ const p1 = (inputString,inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
 
   let endNode = { letter: "E", x: -1, y: -1 };
   const allNodes = [];
@@ -154,5 +152,3 @@ const p2 = (inputString,inputPath) => {
 
   return distance;
 };
-
-module.exports = { p1, p2 };

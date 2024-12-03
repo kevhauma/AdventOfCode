@@ -1,4 +1,4 @@
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   const input = inputString.split("\n").map((line) => {
     const [direction, value] = line.split(" ");
     return { direction, distance: parseInt(value) };
@@ -23,7 +23,7 @@ const p1 = (inputString) => {
 
 //=================================================================================
 
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   const input = inputString.split("\n").map((line) => {
     const [direction, value] = line.split(" ");
     return { direction, distance: parseInt(value) };
@@ -46,4 +46,3 @@ const p2 = (inputString) => {
   });
   return position.x * position.y;
 };
-module.exports = { p1, p2 };

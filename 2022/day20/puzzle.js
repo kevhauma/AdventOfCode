@@ -1,4 +1,4 @@
-const prepareData = (inputString, inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n/g)
@@ -8,8 +8,8 @@ const prepareData = (inputString, inputPath) => {
 /*
 Part one
 */
-const p1 = (inputString, inputPath) => {
-  const firstArray = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const firstArray = prepareData(inputString);
   let resultArray = [...firstArray];
 
   firstArray.forEach(({ x, i }) => {
@@ -20,8 +20,9 @@ const p1 = (inputString, inputPath) => {
     if (x >= 0) newIndex = oldIndex + x + 1;
     else newIndex = oldIndex + x - 1;
 
-    if (newIndex < 0) newIndex = firstArray.length+((newIndex) % firstArray.length);
-    newIndex =( newIndex % firstArray.length) -1;
+    if (newIndex < 0)
+      newIndex = firstArray.length + (newIndex % firstArray.length);
+    newIndex = (newIndex % firstArray.length) - 1;
 
     resultArray[oldIndex] = { x: "_" };
     const firstPart = resultArray.slice(0, newIndex);
@@ -31,7 +32,7 @@ const p1 = (inputString, inputPath) => {
       ({ x }) => x !== "_"
     );
   });
-  console.log(resultArray.map(({x})=>x).join(" "))
+  console.log(resultArray.map(({ x }) => x).join(" "));
 
   const placesToSum = [1000, 2000, 3000];
   const indexOfZero = resultArray.findIndex(({ x }) => x === 0);
@@ -45,8 +46,6 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
 };
-
-module.exports = { p1, p2 };

@@ -1,8 +1,6 @@
-const fs = require("fs");
-
 const bInt = (value, bigInt) => (bigInt ? BigInt(value) : value);
 
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n\r?\n\s*/g)
@@ -44,7 +42,7 @@ const findMonkey = (monkeys, name) => {
 Part one
 */
 
-const p1 = (inputString,inputPath) => {
+export const p1 = (inputString) => {
   //do for 20 rounds:
   //monkey "operates item", changes worry level, add 1 to count
   // worry levels get divided by 3, Math.floor
@@ -56,7 +54,7 @@ const p1 = (inputString,inputPath) => {
   //after 20 rounds: find and sum the top 2 monkeys
 
   const ROUNDS = 20;
-  const monkeys = prepareData(inputString,inputPath);
+  const monkeys = prepareData(inputString);
   Array.from(Array(ROUNDS)).forEach((_, round) => {
     monkeys.forEach((mon) => {
       mon.startingItems.forEach((item) => {
@@ -86,9 +84,9 @@ const p1 = (inputString,inputPath) => {
 /*F
 Part two
 */
-const p2 = (inputString,inputPath) => {
+export const p2 = (inputString) => {
   const ROUNDS = 10000;
-  const monkeys = prepareData(inputString,inputPath);
+  const monkeys = prepareData(inputString);
   //kinda stolen by https://github.com/CodingAP/advent-of-code/blob/main/profiles/github/2022/day11/solution.js
   //get highest value of starting data?
   let highestValue = monkeys.reduce(
@@ -122,5 +120,3 @@ const p2 = (inputString,inputPath) => {
     .map((x) => x.inspectedCount);
   return firstPlace * secondPlace;
 };
-
-module.exports = { p1, p2 };

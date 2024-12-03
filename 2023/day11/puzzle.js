@@ -69,7 +69,7 @@ const calculate = (galaxies) => {
 Part one
 */
 
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   const galaxies = prepareData(inputString, 2);
   return calculate(galaxies);
 };
@@ -77,9 +77,7 @@ const p1 = (inputString) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
+export const p2 = (inputString) => {
   const galaxies = prepareData(inputString, 1000000);
   return calculate(galaxies);
 };
-
-module.exports = { p1, p2 };

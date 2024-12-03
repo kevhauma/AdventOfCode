@@ -27,8 +27,8 @@ const getNextStep = (currentStep, stepsAmount, instructions, dictionary) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const { instructions, dictionary } = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const { instructions, dictionary } = prepareData(inputString);
   let stepsAmount = 0;
   let currentStep = "AAA";
   do {
@@ -48,12 +48,12 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const { instructions, dictionary } = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const { instructions, dictionary } = prepareData(inputString);
   const allStepsEndingWithA = Object.keys(dictionary).filter((key) =>
     key.endsWith("A")
   );
-  
+
   const stepsToZ = allStepsEndingWithA.map((start) => {
     let stepsAmount = 0;
     let currentStep = start;
@@ -68,10 +68,10 @@ const p2 = (inputString, inputPath) => {
 
       stepsAmount += 1;
     } while (!currentStep.endsWith("Z"));
-    return stepsAmount
+    return stepsAmount;
   });
 
-  return `${stepsToZ.join(" ")} https://www.calculatorsoup.com/calculators/math/lcm.php`
+  return `${stepsToZ.join(
+    " "
+  )} https://www.calculatorsoup.com/calculators/math/lcm.php`;
 };
-
-module.exports = { p1, p2 };

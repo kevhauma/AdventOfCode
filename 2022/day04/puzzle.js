@@ -1,6 +1,4 @@
-const fs = require("fs");
-
-const prepareData = (inputString,inputPath) =>
+const prepareData = (inputString) =>
   inputString
     .trim()
     .split(/\r?\n/g)
@@ -18,10 +16,10 @@ const prepareData = (inputString,inputPath) =>
 Part one
 */
 
-const p1 = (inputString,inputPath) =>
+export const p1 = (inputString) =>
   //my start is after other start. AND my end is before other end
   //and vice versa
-  prepareData(inputString,inputPath).filter(
+  prepareData(inputString).filter(
     ([first, second]) =>
       (first.min >= second.min && first.max <= second.max) ||
       (second.min >= first.min && second.max <= first.max)
@@ -30,10 +28,8 @@ const p1 = (inputString,inputPath) =>
 /*
 Part two
 */
-const p2 = (inputString,inputPath) =>
+export const p2 = (inputString) =>
   // my start is before other end, AND my end is after other start
-  prepareData(inputString,inputPath).filter(
+  prepareData(inputString).filter(
     ([first, second]) => first.min <= second.max && first.max >= second.min
   ).length;
-
-module.exports = { p1, p2 };

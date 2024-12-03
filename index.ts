@@ -20,19 +20,19 @@ for (const folder of folders) {
   console.log(`===== Excuting ${year}-${folder} =====`);
   const inputPath = `./${year}/${folder}/${txtFile}.txt`;
   const ioT1 = performance.now();
-  const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
+  const inputString = fs.readFileSync(inputPath, { encoding: "utf8" });
   const ioT2 = performance.now();
   const perfIO = durationFormat(ioT2 - ioT1);
   console.log("IO:", perfIO);
   const t1p1 = performance.now();
-  const r1 = p1(inputstring, inputPath);
+  const r1 = p1(inputString);
   console.log(`Part 1:\t ${r1}`);
   const t2p1 = performance.now();
   const perfP1 = durationFormat(t2p1 - t1p1);
   console.log("P1", perfP1);
 
   const t1p2 = performance.now();
-  const r2 = p2(inputstring, inputPath);
+  const r2 = p2(inputString);
   console.log(`Part 2:\t ${r2}`);
   const t2p2 = performance.now();
   const perfP2 = durationFormat(t2p2 - t1p2);

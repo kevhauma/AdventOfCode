@@ -48,17 +48,15 @@ const getResult = (data, isP2) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const data = prepareData(inputString);
   return getResult(data);
 };
 
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const data = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
   return getResult(data, true);
 };
-
-module.exports = { p1, p2 };

@@ -1,4 +1,3 @@
-const fs = require("fs");
 const log = false;
 
 const STATE = {
@@ -7,7 +6,7 @@ const STATE = {
   INCORRECT: "N",
 };
 
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n\r?\n/g)
@@ -59,8 +58,8 @@ const compareArray = (firstArr, secondArr) => {
 /*
 Part one
 */
-const p1 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p1 = (inputString) => {
+  const data = prepareData(inputString);
   return data.reduce((sum, pair, index) => {
     log && console.log("===***===***===");
     const state = compareArray(pair[0], pair[1], true);
@@ -80,8 +79,8 @@ const findFirstInt = (array) => {
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
   let ordered = { 2: [[[2]]], 6: [[[6]]] };
   data.flat().forEach((packet) => {
     let int = findFirstInt(packet);
@@ -101,5 +100,3 @@ const p2 = (inputString,inputPath) => {
     });
   return twoDivider * sixDivider;
 };
-
-module.exports = { p1, p2 };

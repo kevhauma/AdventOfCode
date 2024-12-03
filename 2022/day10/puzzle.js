@@ -1,9 +1,7 @@
-const fs = require("fs");
-
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   const strengths = [];
   let cycleNumber = 0;
-  fs.readFileSync(inputPath, { encoding: "utf8" })
+  inputString
     .trim()
     .split(/\r?\n/g)
     .map((l) => ({
@@ -39,8 +37,8 @@ const prepareData = (inputString,inputPath) => {
 Part one
 */
 
-const p1 = (inputString,inputPath) => {
-  const strengths = prepareData(inputString,inputPath);
+export const p1 = (inputString) => {
+  const strengths = prepareData(inputString);
 
   let indexToCheck = 20;
 
@@ -60,9 +58,9 @@ const p1 = (inputString,inputPath) => {
 /*F
 Part two
 */
-const p2 = (inputString,inputPath) => {
+export const p2 = (inputString) => {
   const SCREEN_WIDTH = 40;
-  const strengths = prepareData(inputString,inputPath);
+  const strengths = prepareData(inputString);
   let outputLines = ["\n"];
   let line = [];
   let spritePos = [0, 1, 2];
@@ -77,10 +75,8 @@ const p2 = (inputString,inputPath) => {
       line = [];
       spritePos = [0, 1, 2];
     }
-    
+
     if (str.start !== str.end) spritePos = [str.end - 1, str.end, str.end + 1];
   });
   return outputLines.join("\n");
 };
-
-module.exports = { p1, p2 };

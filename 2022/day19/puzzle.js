@@ -1,1 +1,2 @@
-module.exports = { p1: () => "ew", p2: () => "ew" };
+export const p1 = () => {};
+export const p2 = () => {};

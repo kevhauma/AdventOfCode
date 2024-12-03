@@ -1,8 +1,7 @@
-const fs = require("fs");
 const COUNT_LIMIT = 100000;
 const STORAGE_LIMIT = 70000000;
 const FREE_SPACE_GOAL = 30000000;
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   const data = inputString
     .split(/\$/g)
     .map((c) => c.trim().replace(/\r?\n/g, ","))
@@ -50,8 +49,8 @@ function readDir(dir, data) {
 Part one
 */
 
-const p1 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p1 = (inputString) => {
+  const data = prepareData(inputString);
 
   return data.reduce((sum, current) => {
     return current.size > COUNT_LIMIT ? sum : sum + current.size;
@@ -60,8 +59,8 @@ const p1 = (inputString,inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
 
   const { size: totalUsed } = data.find(({ dir }) => dir === ".");
   const spaceFree = STORAGE_LIMIT - totalUsed;
@@ -73,5 +72,3 @@ const p2 = (inputString,inputPath) => {
   //console.log(smallest);
   return smallest.size;
 };
-
-module.exports = { p1, p2 };

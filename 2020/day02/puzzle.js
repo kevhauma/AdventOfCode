@@ -1,4 +1,3 @@
-const fs = require("fs");
 // PART ONE
 // ============================================================================================
 
@@ -22,7 +21,7 @@ function ruleToObject(rule) {
   };
 }
 
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let entries = convertData(inputString);
 
   let results = 0;
@@ -44,7 +43,7 @@ const p1 = (inputString) => {
 // PART TWO
 // ============================================================================================
 
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let entries = convertData(inputString);
 
   let results = 0;
@@ -60,5 +59,3 @@ const p2 = (inputString) => {
 
   return results;
 };
-
-module.exports = { p1, p2 };

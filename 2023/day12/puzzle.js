@@ -12,14 +12,14 @@ const prepareData = (inputString) => {
 const countWays = (record, checks) => {
   if (record.length === 0) {
     //1 if true, 0 if not
-     return checks.length === 0 * 1
+    return checks.length === 0 * 1;
   }
   if (checks.length === 0) {
     // 0 if it has #, 1 if not
-    return !(record.split("").some(rec=>rec === "#")) * 1
+    return !record.split("").some((rec) => rec === "#") * 1;
   }
 
-  const sum = checks.reduce((sum,cur)=>cur+sum)
+  const sum = checks.reduce((sum, cur) => cur + sum);
   if (record.length < sum + checks.length - 1) {
     return 0;
   }
@@ -42,7 +42,8 @@ const countWays = (record, checks) => {
   }
 
   return (
-    countWays("#" + record.slice(1), checks) + countWays("." + record.slice(1), checks)
+    countWays("#" + record.slice(1), checks) +
+    countWays("." + record.slice(1), checks)
   );
 };
 
@@ -50,7 +51,7 @@ const countWays = (record, checks) => {
 Part one
 */
 
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   const lines = prepareData(inputString);
   return lines.reduce(
     (total, { record, checks }) => total + countWays(record, checks),
@@ -61,7 +62,7 @@ const p1 = (inputString) => {
 /*
 Part two
 */
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   const lines = prepareData(inputString);
   return lines
     .map(({ record, checks }) => ({
@@ -73,5 +74,3 @@ const p2 = (inputString) => {
       0
     );
 };
-
-module.exports = { p1, p2 };

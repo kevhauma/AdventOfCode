@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const max = { red: 12, green: 13, blue: 14 };
 
 const prepareData = (inputString) => {
@@ -29,8 +27,8 @@ const prepareData = (inputString) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const games = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const games = prepareData(inputString);
   return (filteredGames = Object.keys(games)
     .filter((gameKey) =>
       games[gameKey].every((blocks) =>
@@ -43,8 +41,8 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const games = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const games = prepareData(inputString);
   return Object.keys(games)
     .map((gameKey) =>
       games[gameKey].reduce(
@@ -70,5 +68,3 @@ const p2 = (inputString, inputPath) => {
     )
     .reduce((sum, value) => sum + value);
 };
-
-module.exports = { p1, p2 };

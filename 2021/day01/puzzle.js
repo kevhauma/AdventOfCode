@@ -1,4 +1,4 @@
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   const input = inputString.split("\n").map(Number);
 
   let increased = 0;
@@ -10,7 +10,7 @@ const p1 = (inputString) => {
   return increased;
 };
 //=====================================================================
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   const input = inputString.split("\n").map(Number);
 
   const windowed = input.map((depth, index) => {
@@ -24,4 +24,3 @@ const p2 = (inputString) => {
   });
   return increased;
 };
-module.exports = { p1, p2 };

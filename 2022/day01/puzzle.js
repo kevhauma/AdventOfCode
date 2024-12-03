@@ -1,8 +1,5 @@
-const fs = require("fs");
-
-const prepareData = (inputString,inputPath) => {
-  const input = fs.readFileSync(inputPath, { encoding: "utf8" });
-  const calorieItems = input.split(/\r?\n/g);
+const prepareData = (inputString) => {
+  const calorieItems = inputString.split(/\r?\n/g);
 
   const calorieTotals = [];
   let tempCalCount = 0;
@@ -21,20 +18,18 @@ const prepareData = (inputString,inputPath) => {
 Part one
 */
 
-const p1 = (inputString,inputPath) => {
-  const calorieTotals = prepareData(inputString,inputPath);
+export const p1 = (inputString) => {
+  const calorieTotals = prepareData(inputString);
   return Math.max(...calorieTotals);
 };
 
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const calorieTotals = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const calorieTotals = prepareData(inputString);
   return calorieTotals
     .sort((a, b) => b - a)
     .slice(0, 3)
     .reduce((total, current) => total + current);
 };
-
-module.exports = { p1, p2 };

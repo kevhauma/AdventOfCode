@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const numberMap = [
   "zero",
   "one",
@@ -30,7 +28,7 @@ const replaceLetteredNumbers = (line) => {
   return copyLine;
 };
 
-const prepareData = (includeNumberWords,inputString) => {
+const prepareData = (includeNumberWords, inputString) => {
   const lines = inputString
     .split(/\r?\n/g)
     .filter(Boolean)
@@ -51,15 +49,13 @@ const prepareData = (includeNumberWords,inputString) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
+export const p1 = (inputString) => {
   return prepareData(false, inputString, inputPath);
 };
 
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
+export const p2 = (inputString) => {
   return prepareData(true, inputString, inputPath);
 };
-
-module.exports = { p1, p2 };

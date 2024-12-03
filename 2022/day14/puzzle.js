@@ -1,11 +1,10 @@
-const fs = require("fs");
 const chute = { x: 500, y: 0 };
 const visualize = (walls, sand, min, max) => {
   for (let y = min.y < chute.y ? min.y : chute.y; y <= max.y; y++) {
     let line = "";
     for (let x = min.x; x <= max.x; x++) {
       if (x === chute.x && y === chute.y) line += "+";
-      else if (walls[`${x},${y}`] = true) line += "#";
+      else if ((walls[`${x},${y}`] = true)) line += "#";
       else if (sand[`${x},${y}`]) line += "0";
       else line += ".";
     }
@@ -14,7 +13,8 @@ const visualize = (walls, sand, min, max) => {
 };
 
 const isSpaceOccupied = (space, walls, sand, maxY, part2) =>
-  walls[`${space.x},${space.y}`] || sand[`${space.x},${space.y}`] ||
+  walls[`${space.x},${space.y}`] ||
+  sand[`${space.x},${space.y}`] ||
   (part2 && space.y >= maxY + 2);
 
 const getNextSpace = (start, walls, sand, maxY, part2) => {
@@ -26,14 +26,14 @@ const getNextSpace = (start, walls, sand, maxY, part2) => {
   for (const availableNextSpace of availableNextSpaces) {
     if (!part2 && availableNextSpace.y > maxY)
       return "AAAAAAH I CANT STOP FALLING";
-      //console.log(walls)
+    //console.log(walls)
     if (!isSpaceOccupied(availableNextSpace, walls, sand, maxY, part2)) {
       return getNextSpace(availableNextSpace, walls, sand, maxY, part2);
     }
   }
   return start;
 };
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   const wallCommands = inputString
     .trim()
     .split(/r?\n/g)
@@ -44,7 +44,7 @@ const prepareData = (inputString,inputPath) => {
       }))
     );
   const walls = {};
-  let maxX = 0
+  let maxX = 0;
   let minX = Infinity;
   let maxY = 0;
   let minY = Infinity;
@@ -64,27 +64,27 @@ const prepareData = (inputString,inputPath) => {
       for (let y = smallestY; y <= largestY; y++) {
         walls[`${currCmd.x},${y}`] = true;
       }
-      maxX = largestX > maxX ? largestX : maxX
-      minX = smallestX < minX ? smallestX : minX
+      maxX = largestX > maxX ? largestX : maxX;
+      minX = smallestX < minX ? smallestX : minX;
       maxY = largestY > maxY ? largestY : maxY;
       minY = smallestY < minY ? smallestY : minY;
       prevCmd = currCmd;
     }
   });
-  
+
   return { walls, min: { x: minX, y: minY }, max: { x: maxX, y: maxY } };
 };
 
 /*
 Part one
 */
-const p1 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
-  
+export const p1 = (inputString) => {
+  const data = prepareData(inputString);
+
   const sand = {};
   while (true) {
     const sandFall = getNextSpace(chute, data.walls, sand, data.max.y);
-    if (sandFall.x) sand[`${sandFall.x},${sandFall.y}`] = true
+    if (sandFall.x) sand[`${sandFall.x},${sandFall.y}`] = true;
     else break;
   }
   //$visualize(data.walls, sand, data.min, data.max);
@@ -94,8 +94,8 @@ const p1 = (inputString,inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
 
   const sand = [];
   while (true) {
@@ -106,5 +106,3 @@ const p2 = (inputString,inputPath) => {
   //visualize(data.walls, sand, data.min, data.max);
   return Object.keys(sand).length;
 };
-
-module.exports = { p1, p2 };

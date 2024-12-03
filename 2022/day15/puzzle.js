@@ -1,8 +1,6 @@
-const fs = require("fs");
-
 const getDistance = (p1, p2) => Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/r?\n/g)
@@ -20,10 +18,10 @@ const prepareData = (inputString,inputPath) => {
 /*
 Part one
 */
-const p1 = (inputString,inputPath) => {
+export const p1 = (inputString) => {
   const LINE_TO_CHECK = inputPath.includes("test") ? 10 : 2000000;
 
-  const data = prepareData(inputString,inputPath);
+  const data = prepareData(inputString);
   const coveredSpots = [];
 
   data.forEach(({ sensor, beacon, distance }) => {
@@ -54,8 +52,8 @@ const p1 = (inputString,inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const data = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const data = prepareData(inputString);
 
   const MAX_COORD = inputPath.includes("test") ? 20 : 4000000;
   let distress = null;
@@ -99,5 +97,3 @@ const p2 = (inputString,inputPath) => {
 
   return BigInt(distress.spot.x) * 4000000n + BigInt(distress.spot.y);
 };
-
-module.exports = { p1, p2 };

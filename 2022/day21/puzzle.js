@@ -18,7 +18,7 @@ const prepareData = (inputString) => {
     );
 };
 const doOp = (first, op, second) => {
-    console.log(first,op,second)
+  console.log(first, op, second);
   switch (op) {
     case "+":
       return first + second;
@@ -32,9 +32,10 @@ const doOp = (first, op, second) => {
 };
 const getValue = (monkeys, monkey, part2) => {
   const monkeyObject = monkeys[monkey];
-  if (part2 && monkey === "humn"){
+  if (part2 && monkey === "humn") {
     monkeyObject.me = true;
-    return { value: monkeyObject.value, me: true };}
+    return { value: monkeyObject.value, me: true };
+  }
   if (monkeyObject.value !== undefined)
     return { value: monkeyObject.value, me: false };
 
@@ -59,8 +60,8 @@ const getValue = (monkeys, monkey, part2) => {
 /*
 Part one
 */
-const p1 = (inputString, inputPath) => {
-  const monkeys = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const monkeys = prepareData(inputString);
   return getValue(monkeys, "root").value;
 };
 
@@ -100,16 +101,14 @@ const getReverseValue = (monkeys, monkey, valueToBe) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const monkeys = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const monkeys = prepareData(inputString);
   const root = monkeys["root"];
-  getValue(monkeys, 'root', true);
-  const first = monkeys[root.calc.first]
-  const second = monkeys[root.calc.second]
+  getValue(monkeys, "root", true);
+  const first = monkeys[root.calc.first];
+  const second = monkeys[root.calc.second];
 
   if (first.me) {
     return getReverseValue(monkeys, root.calc.first, second.value);
   } else return getReverseValue(monkeys, root.calc.second, first.value);
 };
-
-module.exports = { p1, p2 };

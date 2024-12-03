@@ -41,7 +41,7 @@ const visualize = (elves) => {
     console.log(line);
   }
 };
-const prepareData = (inputString, inputPath) => {
+const prepareData = (inputString) => {
   const elfArray = inputString
     .trim()
     .split(/\r?\n/g)
@@ -79,8 +79,8 @@ const getNeighbourElves = (elves, { x, y }) => {
 /*
 Part one
 */
-const p1 = (inputString, inputPath) => {
-  const elves = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const elves = prepareData(inputString);
   //visualize(elves);
   //console.log("*********************");
   let elvesMoved = 0;
@@ -143,7 +143,7 @@ const p1 = (inputString, inputPath) => {
     ++round;
     console.log("round:", round, ":", (t3 - t1).toFixed(3), "ms");
   } while (elvesMoved > 0 && round < 10);
- // visualize(elves);
+  // visualize(elves);
 
   const ePos = Object.entries(elves)
     .map(([key, value]) => (value ? getCoords(key) : null))
@@ -153,7 +153,7 @@ const p1 = (inputString, inputPath) => {
   const minY = Math.min(...ePos.map((p) => p.y));
   const maxY = Math.max(...ePos.map((p) => p.y));
 
-  const area = (maxX+1 - minX) * (maxY+1 - minY);
+  const area = (maxX + 1 - minX) * (maxY + 1 - minY);
   console.log(area, "=", maxX - minX, "*", maxX - minY);
   const emptySpots = area - ePos.length;
   console.log(emptySpots, "=", area, "-", ePos.length);
@@ -164,6 +164,4 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {};
-
-module.exports = { p1, p2 };
+export const p2 = (inputString) => {};

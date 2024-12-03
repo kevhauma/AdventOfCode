@@ -1,9 +1,5 @@
-const fs = require("fs");
-
-const prepareData = (inputString,inputPath) => {
-  const lines = fs.readFileSync(inputPath, { encoding: "utf8" });
-
-  const splitLines = lines
+const prepareData = (inputString) => {
+  const splitLines = inputString
     .split(/^[[0-9|\s]+$/gm)
     .map((lines) => lines.split(/\r\n|\r|\n/g).filter(Boolean));
 
@@ -42,8 +38,8 @@ const prepareData = (inputString,inputPath) => {
 Part one
 */
 
-const p1 = (inputString,inputPath) => {
-  const { moves, stacks } = prepareData(inputString,inputPath);
+export const p1 = (inputString) => {
+  const { moves, stacks } = prepareData(inputString);
 
   moves.forEach((move) => {
     for (let index = 0; index < move.move; index++) {
@@ -55,8 +51,8 @@ const p1 = (inputString,inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString,inputPath) => {
-  const { moves, stacks } = prepareData(inputString,inputPath);
+export const p2 = (inputString) => {
+  const { moves, stacks } = prepareData(inputString);
 
   moves.forEach((move) => {
     const tempStack = [];
@@ -67,5 +63,3 @@ const p2 = (inputString,inputPath) => {
   });
   return stacks.map((stack) => stack.pop()).join("");
 };
-
-module.exports = { p1, p2 };

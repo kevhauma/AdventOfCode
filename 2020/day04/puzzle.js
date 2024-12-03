@@ -88,7 +88,7 @@ const neededKeys = Object.keys(validators).sort(); // "cid" not needed
 
 // PART ONE
 // ============================================================================================
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let entries = convertData(inputString);
 
   let validEntries = 0;
@@ -113,7 +113,7 @@ function partOneValidator(entry) {
 
 // PART TWO
 // ============================================================================================
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let entries = convertData(inputString);
 
   let validEntries = 0;
@@ -133,5 +133,3 @@ function partTwoValidator(entry) {
   });
   return valid;
 }
-
-module.exports = { p1, p2 };

@@ -8,8 +8,36 @@ const RANKS = {
   HIGH_CARD: 1,
 };
 
-const cardsP1 = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
-const cardsP2 = ["J" ,"2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"];
+const cardsP1 = [
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "T",
+  "J",
+  "Q",
+  "K",
+  "A",
+];
+const cardsP2 = [
+  "J",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "T",
+  "Q",
+  "K",
+  "A",
+];
 
 const sortOnCards = (a, b, isP2) => {
   const cards = isP2 ? cardsP2 : cardsP1;
@@ -110,7 +138,9 @@ const countScore = (plays, isP2) => {
     }))
     .toSorted((a, b) =>
       //if rank is same, sort on highestCard
-      a.rank - b.rank !== 0 ? a.rank - b.rank : sortOnCards(a.cards, b.cards, isP2)
+      a.rank - b.rank !== 0
+        ? a.rank - b.rank
+        : sortOnCards(a.cards, b.cards, isP2)
     );
 
   const score = sortedPlays.reduce(
@@ -124,8 +154,8 @@ const countScore = (plays, isP2) => {
 Part one
 */
 
-const p1 = (inputString, inputPath) => {
-  const plays = prepareData(inputString, inputPath);
+export const p1 = (inputString) => {
+  const plays = prepareData(inputString);
   const score = countScore(plays);
 
   return score;
@@ -134,11 +164,9 @@ const p1 = (inputString, inputPath) => {
 /*
 Part two
 */
-const p2 = (inputString, inputPath) => {
-  const plays = prepareData(inputString, inputPath);
+export const p2 = (inputString) => {
+  const plays = prepareData(inputString);
   const score = countScore(plays, true);
 
   return score;
 };
-
-module.exports = { p1, p2 };

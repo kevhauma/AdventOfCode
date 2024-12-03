@@ -1,7 +1,7 @@
 // PART ONE
 // ============================================================================================
 
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   let numbers = inputString.split("\n").map((n) => parseInt(n));
 
   for (let i = 0; i < numbers.length - 1; i++) {
@@ -17,7 +17,7 @@ const p1 = (inputString) => {
 // PART TWO
 // ============================================================================================
 
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   let numbers = inputString.split("\n").map((n) => parseInt(n));
 
   for (let i = 0; i < numbers.length - 1; i++) {
@@ -25,11 +25,14 @@ const p2 = (inputString) => {
       for (let k = 0; k < numbers.length - 1; k++) {
         if (numbers[i] + numbers[j] + numbers[k] == 2020) {
           return `
-          ${numbers[i]} + ${numbers[j]} + ${numbers[k]} = ${numbers[j] + numbers[i] + numbers[k]}
-          ${numbers[i]} * ${numbers[j]}* ${numbers[k]} = ${numbers[j] * numbers[i] * numbers[k]}`
+          ${numbers[i]} + ${numbers[j]} + ${numbers[k]} = ${
+            numbers[j] + numbers[i] + numbers[k]
+          }
+          ${numbers[i]} * ${numbers[j]}* ${numbers[k]} = ${
+            numbers[j] * numbers[i] * numbers[k]
+          }`;
         }
       }
     }
   }
 };
-module.exports = { p1, p2 };

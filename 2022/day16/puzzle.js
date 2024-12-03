@@ -42,7 +42,7 @@ const findRates = (distances, valve, minutes, left, opened = {}) => {
   return allRates;
 };
 
-const p1 = (input) => {
+export const p1 = (input) => {
   let graph = {},
     rates = {};
 
@@ -74,7 +74,7 @@ const p1 = (input) => {
     .sort((a, b) => b - a)[0];
 };
 
-const p2 = (input) => {
+export const p2 = (input) => {
   let graph = {},
     rates = {};
 
@@ -127,5 +127,3 @@ const p2 = (input) => {
 
   return highest;
 };
-
-module.exports = { p1, p2 };

@@ -36,7 +36,7 @@ class BingoBoard {
   }
 }
 
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   const input = inputString.split("\n").filter(Boolean);
 
   const pulledNumbers = input.shift().split(",").map(Number);
@@ -66,10 +66,7 @@ const p1 = (inputString) => {
   return winningNumber;
 };
 //=================================================================================
-const p2 = (inputString) => {
-    const input = inputString.split("\n").filter(Boolean);
-    return null
-  };
-
-  
-  module.exports = { p1, p2 };
+export const p2 = (inputString) => {
+  const input = inputString.split("\n").filter(Boolean);
+  return null;
+};

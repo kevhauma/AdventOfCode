@@ -1,6 +1,4 @@
-const fs = require("fs");
-
-const prepareData = (inputString,inputPath) => {
+const prepareData = (inputString) => {
   return inputString
     .trim()
     .split(/\r?\n/g)
@@ -41,10 +39,10 @@ const moveTail = (previous, next, isHead) => {
 
   //up corner
   if (tailDiff[1] < -1 && tailDiff[0] < -1) {
-    tail = [previous[0] -1, previous[1] - 1];
+    tail = [previous[0] - 1, previous[1] - 1];
   }
   if (tailDiff[1] < -1 && tailDiff[0] > 1) {
-    tail = [previous[0] +1, previous[1] - 1];
+    tail = [previous[0] + 1, previous[1] - 1];
   }
   //down corner
   if (tailDiff[1] > 1 && tailDiff[0] < -1) {
@@ -70,7 +68,7 @@ const moveTail = (previous, next, isHead) => {
   return tail;
 };
 
-const visualize = (visited, max,min) => {
+const visualize = (visited, max, min) => {
   console.log("______________________________");
   const uniques = Array.from(new Set(visited)).map((x) => x.split(","));
   for (let y = max[1]; y >= min[1]; y--) {
@@ -86,21 +84,17 @@ const visualize = (visited, max,min) => {
 /*
 Part one
 */
-const p1 = (inputString,inputPath) => {
+export const p1 = (inputString) => {
   // const data = prepareData(inputString,inputPath);
   // const visited = ["0,0"];
   // let head = [0, 0];
   // let tail = [0, 0];
-
   // let max = [0, 0];
   // let min = [0, 0];
-
   // data.forEach(([dir, dis]) => {
   //   Array.from(Array(parseInt(dis))).forEach((_, i) => {
   //     let newHead = moveHead(head, dir);
-
   //     const newTail = moveTail(newHead, tail, !i);
-
   //     visited.push(newTail.join(","));
   //     if (newTail[0] > max[0]) max[0] = newTail[0];
   //     if (newTail[1] > max[1]) max[1] = newTail[1];
@@ -118,10 +112,10 @@ const p1 = (inputString,inputPath) => {
 Part two
 */
 
-const p2 = (inputString,inputPath) => {
+export const p2 = (inputString) => {
   const TAIL_SIZE = 9;
 
-  const data = prepareData(inputString,inputPath)//.slice(0,2);
+  const data = prepareData(inputString); //.slice(0,2);
   const visited = ["0,0"];
   let head = [0, 0];
   let tails = Array.from(Array(TAIL_SIZE)).map((x) => [0, 0]);
@@ -133,27 +127,24 @@ const p2 = (inputString,inputPath) => {
       let newHead = moveHead(head, dir);
 
       let previousTail = newHead;
-      const newTails = tails.map((tail,i) => {
+      const newTails = tails.map((tail, i) => {
         const newTail = moveTail(previousTail, tail);
-        if(i+1===TAIL_SIZE)
-          visited.push(newTail.join(","));
+        if (i + 1 === TAIL_SIZE) visited.push(newTail.join(","));
         if (newTail[0] > max[0]) max[0] = newTail[0];
         if (newTail[1] > max[1]) max[1] = newTail[1];
         if (newTail[0] < min[0]) min[0] = newTail[0];
         if (newTail[1] < min[1]) min[1] = newTail[1];
         previousTail = newTail;
-        
+
         return newTail;
       });
-     
+
       head = newHead;
       tails = [...newTails];
-     // visualize([head.join(","), ...tails.map((x) => x.join(","))], max, min);
+      // visualize([head.join(","), ...tails.map((x) => x.join(","))], max, min);
     });
-     
   });
 
   //visualize(visited, max,min);
   return new Set(visited).size;
 };
-module.exports = { p1, p2 };

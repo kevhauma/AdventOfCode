@@ -1,4 +1,3 @@
-
 const shapes = [
   {
     id: 0,
@@ -55,63 +54,67 @@ const validPos = (pos, shape, map) => {
   }
   return true;
 };
-const p1 = (inputString) => {
+export const p1 = (inputString) => {
   const wind = inputString.trim().split("");
- const {height:top} = simulateDrops(wind,2022)
+  const { height: top } = simulateDrops(wind, 2022);
 
   return top;
 };
 const simulateDrops = (wind, howManyRocksToDrop) => {
-	const map = new Map();
-	const moves = [];
-    
-	let top = 0;
-	let droppedRocks = 0;
-	let rockIdx = 0;
-	let windIdx = 0;
-	while(droppedRocks < howManyRocksToDrop ){
-		const currRock = shapes[rockIdx % shapes.length];
-		rockIdx++;
-		let currPos = [2, top + 3];
-		let stopped = false;
-		while(!stopped){
-			const move = wind[windIdx % wind.length];
-			windIdx++;
-			if(move === '>'){
-				if(validPos([currPos[0] + 1, currPos[1]], currRock, map)){ // can go right
-					currPos = [currPos[0] + 1, currPos[1]];
-				}
-			} else {
-				if(validPos([currPos[0] - 1, currPos[1]], currRock, map)){ // can go left
-					currPos = [currPos[0] - 1, currPos[1]];
-				}
-			}
-			if(validPos([currPos[0], currPos[1] - 1], currRock, map)){ // can go down
-				currPos = [currPos[0], currPos[1] - 1];
-			} else { // touched down
-				stopped = true;
-				top = Math.max(top, currRock.height + currPos[1]);
-				for(let y=0; y<currRock.form.length; y++){
-					for(let x=0; x<currRock.form[0].length; x++){
-						if(currRock.form[y][x] === '#')
-							map.set([currPos[0] + x, currPos[1] + y].toString(), true);
-					}
-				}
-			}
-		}
-		droppedRocks++;
-		moves.push({
-			id: currRock.id,
-			xPos: currPos[0]
-		});
-	}
+  const map = new Map();
+  const moves = [];
 
-	return {
-		moves: moves,
-		height: top
-	};
+  let top = 0;
+  let droppedRocks = 0;
+  let rockIdx = 0;
+  let windIdx = 0;
+  while (droppedRocks < howManyRocksToDrop) {
+    const currRock = shapes[rockIdx % shapes.length];
+    rockIdx++;
+    let currPos = [2, top + 3];
+    let stopped = false;
+    while (!stopped) {
+      const move = wind[windIdx % wind.length];
+      windIdx++;
+      if (move === ">") {
+        if (validPos([currPos[0] + 1, currPos[1]], currRock, map)) {
+          // can go right
+          currPos = [currPos[0] + 1, currPos[1]];
+        }
+      } else {
+        if (validPos([currPos[0] - 1, currPos[1]], currRock, map)) {
+          // can go left
+          currPos = [currPos[0] - 1, currPos[1]];
+        }
+      }
+      if (validPos([currPos[0], currPos[1] - 1], currRock, map)) {
+        // can go down
+        currPos = [currPos[0], currPos[1] - 1];
+      } else {
+        // touched down
+        stopped = true;
+        top = Math.max(top, currRock.height + currPos[1]);
+        for (let y = 0; y < currRock.form.length; y++) {
+          for (let x = 0; x < currRock.form[0].length; x++) {
+            if (currRock.form[y][x] === "#")
+              map.set([currPos[0] + x, currPos[1] + y].toString(), true);
+          }
+        }
+      }
+    }
+    droppedRocks++;
+    moves.push({
+      id: currRock.id,
+      xPos: currPos[0],
+    });
+  }
+
+  return {
+    moves: moves,
+    height: top,
+  };
 };
-const p2 = (inputString) => {
+export const p2 = (inputString) => {
   const wind = inputString.trim().split("");
 
   const rocksToDropToFindLoop = 10000;
@@ -164,4 +167,3 @@ const p2 = (inputString) => {
 
   return answer;
 };
-module.exports = { p1, p2 };
