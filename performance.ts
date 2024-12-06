@@ -15,8 +15,8 @@ for (const folder of folders) {
   const inputPath = `./${year}/${folder}/${txtFile}.txt`;
   const inputstring = fs.readFileSync(inputPath, { encoding: "utf8" });
 
-  const oterhPart1s = Object.entries(otherFunctions).filter(([functionName])=>functionName.includes("1")) as Array<FunctionEntryType> 
-  const oterhPart2s = Object.entries(otherFunctions).filter(([functionName]) => functionName.includes("2")) as Array<FunctionEntryType> 
+  const oterhPart1s = Object.entries(otherFunctions).filter(([functionName]) => functionName.includes("1")) as Array<FunctionEntryType>
+  const oterhPart2s = Object.entries(otherFunctions).filter(([functionName]) => functionName.includes("2")) as Array<FunctionEntryType>
 
   Deno.bench({
     name: `${year}/${folder}: Read File`,
@@ -43,25 +43,25 @@ for (const folder of folders) {
     },
   });
 
- oterhPart1s.forEach(([funcName,func])=>{
-   Deno.bench({
-     name: `${year}/${folder}: ${funcName}`,
-     group: "Part 1",
-     fn: () => {
-       func(inputstring);
-     },
-   });
- })
+  oterhPart1s.forEach(([funcName, func]) => {
+    Deno.bench({
+      name: `${year}/${folder}: ${funcName}`,
+      group: "Part 1",
+      fn: () => {
+        func(inputstring);
+      },
+    });
+  })
 
- oterhPart2s.forEach(([funcName,func])=>{
-   Deno.bench({
-     name: `${year}/${folder}: ${funcName}`,
-     group: "Part 2",
-     fn: () => {
-       func(inputstring);
-     },
-   });
- })
-  
- 
+  oterhPart2s.forEach(([funcName, func]) => {
+    Deno.bench({
+      name: `${year}/${folder}: ${funcName}`,
+      group: "Part 2",
+      fn: () => {
+        func(inputstring);
+      },
+    });
+  })
+
+
 }
