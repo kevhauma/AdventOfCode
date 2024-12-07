@@ -6,17 +6,25 @@ type Coord = {
 
 type DataType = { walls: Array<Coord>, height: number, width: number, start: Coord };
 
-type ResultType = Record<string, boolean>
+type ResultType = { steps: Record<string, number>, obstacles: Record<string, number> }
 
 
 const vizualize = (results: ResultType, { height, walls, start, width }: DataType) => {
   for (let y = 0; y < height; y++) {
     let l = ''
     for (let x = 0; x < width; x++) {
-      if (x === start.x && y === start.y)
-        l += "^"
-      else if (results[`${y}:${x}`])
-        l += "X"
+      // if (x === start.x && y === start.y)
+      //   l += "^" 
+      if (results.obstacles[`${y}:${x}`])
+        l += "O"
+      else if (results.steps[`${y}:${x}`]) {
+        switch (results.steps[`${y}:${x}`]) {
+          case 1: l += "^"; break;
+          case 2: l += ">"; break;
+          case 3: l += "V"; break;
+          case 4: l += "<"; break;
+        }
+      }
       else if (walls.find(wall => wall.x === x && wall.y === y))
         l += "#"
       else
@@ -84,7 +92,7 @@ const traversLeft = ({ walls }: DataType, { x, y }: Coord) => {
     return { x: wall.x + 1, y }
 }
 
-const travers = (data: DataType, currentPos: Coord, directionIndex: number, results: ResultType = {}) => {
+const travers = (data: DataType, currentPos: Coord, directionIndex: number, results: ResultType, isP2: boolean = false) => {
   const { width, height } = data
   let newPosition: Coord | undefined
   let range: { start: Coord, end: Coord } | undefined
@@ -106,16 +114,36 @@ const travers = (data: DataType, currentPos: Coord, directionIndex: number, resu
       newPosition = traversLeft(data, currentPos)
       range = { start: newPosition, end: currentPos }
       break;
-
   }
   if (!newPosition || !range) throw 'new position cannot be undefined'
 
-  for (let yRange = range.start.y; yRange <= range.end.y; yRange++) {
-    for (let xRange = range.start.x; xRange <= range.end.x; xRange++) {
-      results[`${yRange}:${xRange}`] = true
+  for (let y = range.start.y; y <= range.end.y; y++) {
+    for (let x = range.start.x; x <= range.end.x; x++) {
+      if (isP2) {
+        const isOuterStepX = range.start.x === range.end.x ? false : (range.start.x === x || range.end.x === x)
+        const isOuterStepY = range.start.y === range.end.y ? false : (range.start.y === y || range.end.y === y)
+        
+        //if finding a crossover (that isn't a corner of current path)
+        if (results.steps[`${y}:${x}`] && !isOuterStepX && !isOuterStepY) {
+          //if the crossover matches the next directin
+          const nextDirectionIndex = (directionIndex + 1) % 4
+          if (results.steps[`${y}:${x}`] === nextDirectionIndex + 1)
+            results.obstacles[`${y}:${x}`] = directionIndex + 1
+
+          //TODO somehow check for this scenario
+          /*
+          . V V
+          < < V 
+          . . V -- this can be an obstacle
+          */
+
+        }
+      }
+      results.steps[`${y}:${x}`] = directionIndex + 1
     }
   }
-
+  // console.log("========================")
+  // vizualize(results, data)
 
   if (newPosition.x < 0 || newPosition.y < 0) return results
   if (newPosition.x >= width || newPosition.y >= height)
@@ -124,7 +152,7 @@ const travers = (data: DataType, currentPos: Coord, directionIndex: number, resu
   //equivalent for turning right 90%
   const newDirection = (directionIndex + 1) % 4
 
-  return travers(data, newPosition, newDirection, results)
+  return travers(data, newPosition, newDirection, results, isP2)
 
 
 }
@@ -135,12 +163,12 @@ Part one
 export const p1 = (inputString: string) => {
   const data = prepareData(inputString);
 
-  const results = travers(data, data.start, 0)
+  const {steps} = travers(data, data.start, 0, { steps: { [`${data.start.y}:${data.start.x}`]: 1 }, obstacles: {} })
 
   //vizualize(results, data)
 
   //minus one, it adds the exist cell
-  return Object.keys(results).length - 1
+  return Object.keys(steps).length - 1
 };
 
 /*
@@ -148,4 +176,10 @@ Part two
 */
 export const p2 = (inputString: string) => {
   const data = prepareData(inputString);
+  const {obstacles} = travers(data, data.start, 0, { steps: { [`${data.start.y}:${data.start.x}`]: 1 }, obstacles: {} }, true)
+
+  //vizualize(results, data)
+
+  //is broken, don't use
+  return Object.keys(obstacles).length
 };
