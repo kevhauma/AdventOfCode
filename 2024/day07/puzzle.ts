@@ -34,37 +34,21 @@ const generateCombinations = (length: number, symbols: Array<string>) => {
   return results;
 }
 
-const preprocessTerms = (terms: Array<number>, combination: Array<string>) => {
-  const newTerms: Array<number> = [];
-  terms.forEach((term, index) => {
-    //if previous term is concat, replace previous value with concated version
-    if (combination[index - 1] === "||") {
-      newTerms[newTerms.length - 1] = Number(`${newTerms[newTerms.length - 1]}${term}`)
-    }
-    else newTerms.push(term)
-  })
-  return newTerms
-}
-
 const findResultsWithCorrectCombinations = (data: DataType, operators: OperatorConfigType) => {
   // store the combination result so it doesn't have to be calculated again for the same length
   const operatorCombination: Record<number, Combination> = {}
 
   return data.filter(({ result, terms }) => {
     const combinationLenghtNeeded = terms.length - 1
-    const combinations = operatorCombination[combinationLenghtNeeded] || generateCombinations(combinationLenghtNeeded, Object.keys(operators))
+    const combinations = operatorCombination[combinationLenghtNeeded] 
+    || generateCombinations(combinationLenghtNeeded, Object.keys(operators))
+    
     operatorCombination[combinationLenghtNeeded] = combinations;
     
     return combinations.some(combination => {
-      const needsPreprocessing = combination.includes("||")
-      
-      //pre-process for || operation
-      const processedTerms = needsPreprocessing ? preprocessTerms(terms, combination) : terms
-      const processCombination = needsPreprocessing ? combination.filter(op => op !== "||") : combination
-
-      const termsWithCombinationResult = processedTerms.reduce((localResult, term, index) => {
+      const termsWithCombinationResult = terms.reduce((localResult, term, index) => {
         //use function from the operators config
-        return operators[processCombination[index - 1]]?.(localResult,term) || localResult
+        return operators[combination[index - 1]]?.(localResult,term) || localResult
       })
       
       return termsWithCombinationResult === result
@@ -95,7 +79,7 @@ export const p2 = (inputString: string) => {
   const operators = {
     "*": (term1: number, term2: number) => term1 * term2,
     "+": (term1: number, term2: number) => term1 + term2,
-    "||": null,
+    "||": (term1: number, term2: number) => Number(`${term1}${term2}`),
   }
   const results = findResultsWithCorrectCombinations(data, operators)
   return results.reduce((sum, curr) => sum + curr.result, 0)
