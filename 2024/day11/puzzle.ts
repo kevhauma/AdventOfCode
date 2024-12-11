@@ -3,8 +3,9 @@ const prepareData = (inputString: string) => {
 
   return input;
 };
-const blinking = (initialStones: Array<number> = [], amountOfBLinks: number) => {
-  let stones = [...initialStones]
+
+const blinkStone = (initialStone: number, amountOfBLinks: number) => {
+  let stones = [initialStone]
 
   for (let blink = 0; blink < amountOfBLinks; blink++) {
     const localStones: Array<number> = []
@@ -26,8 +27,13 @@ const blinking = (initialStones: Array<number> = [], amountOfBLinks: number) => 
     })
     //console.log(blink,localStones.join(" "))
     stones = localStones;
+    console.log(blink,initialStone,stones.length)
   }
   return stones.length
+}
+
+const blinkStones = (initialStones: Array<number> = [], amountOfBLinks: number) => {
+  return initialStones.reduce((sum, stone) => sum + blinkStone(stone, amountOfBLinks), 0)
 }
 
 /*
@@ -36,7 +42,7 @@ Part one
 
 export const p1 = (inputString: string) => {
   const initialStones = prepareData(inputString);
-  return blinking(initialStones,25)
+  return blinkStones(initialStones, 25)
 
 };
 
@@ -45,5 +51,5 @@ Part two
 */
 export const p2 = (inputString: string) => {
   const initialStones = prepareData(inputString);
-  return blinking(initialStones, 75)
+  return blinkStones(initialStones, 75)
 };
