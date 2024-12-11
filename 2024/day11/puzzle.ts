@@ -4,14 +4,19 @@ const prepareData = (inputString: string) => {
   return input;
 };
 
+const addToRecord = (record: Record<number, number>, key: number, amount: number = 1) => {
+  record[key] = (record[key] || 0) + amount
+}
+
 const blinkStone = (initialStone: number, amountOfBLinks: number) => {
-  let stones = [initialStone]
+  let stones: Record<number, number> = { [initialStone]: 1 }
 
   for (let blink = 0; blink < amountOfBLinks; blink++) {
-    const localStones: Array<number> = []
-    stones.forEach((stone) => {
+    const localStones: Record<number, number> = {}
+    Object.entries(stones).forEach(([stoneStr, amount]) => {
+      const stone = Number(stoneStr)
       if (!stone) {
-        localStones.push(1)
+        addToRecord(localStones, 1, amount)
         return
       }
       const stoneString = `${stone}`;
@@ -20,16 +25,17 @@ const blinkStone = (initialStone: number, amountOfBLinks: number) => {
         const stone1Str = stoneString.split("").splice(0, stoneString.length / 2).join("")
         const stone2Str = stoneString.split("").splice(stoneString.length / 2).join("")
         //console.log(stone1Str,stone2Str)
-        localStones.push(Number(stone1Str), Number(stone2Str))
+        addToRecord(localStones, Number(stone1Str), amount)
+        addToRecord(localStones, Number(stone2Str), amount)
+
         return
       }
-      localStones.push(stone * 2024)
+      addToRecord(localStones, stone * 2024, amount)
     })
     //console.log(blink,localStones.join(" "))
     stones = localStones;
-    console.log(blink,initialStone,stones.length)
   }
-  return stones.length
+  return Object.values(stones).reduce((sum, curr) => sum + curr)
 }
 
 const blinkStones = (initialStones: Array<number> = [], amountOfBLinks: number) => {
